@@ -1,0 +1,11 @@
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/CMakeFiles/curl_uninstall.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/CMakeFiles/INSTALL.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/CMakeFiles/ALL_BUILD.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/CMakeFiles/ZERO_CHECK.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/lib/CMakeFiles/libcurl_object.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/lib/CMakeFiles/libcurl_static.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/lib/CMakeFiles/libcurl_shared.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/lib/CMakeFiles/INSTALL.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/src/CMakeFiles/curl.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/src/CMakeFiles/curltool.dir
+C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/CURL/curl-8.9.0_1-win64-mingw/src/CMakeFiles/INSTALL.dir

@@ -1,0 +1,14 @@
+Release
+Debug
+x64
+.vs/DOSSDK/v17
+.vscode
+.vs
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\ThirdParty\socket.io-client-cpp-3.1.0\src\sio_client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\ThirdParty\socket.io-client-cpp-3.1.0\src\sio_socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\ThirdParty\socket.io-client-cpp-3.1.0\src\internal\sio_client_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\ThirdParty\socket.io-client-cpp-3.1.0\src\internal\sio_packet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\ThirdParty\socket.io-client-cpp-3.1.0\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5657F3C9-2846-3ADD-BFF7-271EA722DA8B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
