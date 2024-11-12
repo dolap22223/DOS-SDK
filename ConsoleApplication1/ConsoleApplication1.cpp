@@ -20,10 +20,10 @@ int main()
     //DenateAchievement::DOS_Achievement denatea("", "");
     std::cout << "Hello World!\n";
 
-    SignUpAppUserResult localone;
-    localone = appuser.SignUpDenateAppUser("ssffsfs", "svsfsfb");
+    ChangeDenateAppUserPasswordResult localone;
+    localone = appuser.ChangeDenateAppUserPassword("dolap2223@gmail.com", "egege", "wrwrgwg");
 
-    std::cout << localone.userDetails.appUserID << std::endl;
+    std::cout << localone.httpResponse.message << std::endl;
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 
