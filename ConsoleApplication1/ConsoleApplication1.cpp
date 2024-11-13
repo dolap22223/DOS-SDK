@@ -17,13 +17,19 @@ int main()
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
     DenateAppUser::DOS_AppUser appuser("userID", "appID", false);
+    
     //DenateAchievement::DOS_Achievement denatea("", "");
     std::cout << "Hello World!\n";
 
-    ChangeDenateAppUserPasswordResult localone;
-    localone = appuser.ChangeDenateAppUserPassword("dolap2223@gmail.com", "egege", "wrwrgwg");
+    LoginAppUserResult localone;
+    localone = appuser.LoginDenateAppUserById("dpp");
 
-    std::cout << localone.httpResponse.message << std::endl;
+    DenateAchievement::DOS_Achievement achievement("userID", "appID", false, localone.token);
+
+    LockOrUnlockAchievementByAchievementResult achievementresult;
+    achievementresult = achievement.LockOrUnlockAchievementByAchievementName("achievement_name", true, "test");
+
+    std::cout << achievementresult.httpResponse.message << std::endl;
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 

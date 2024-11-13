@@ -10,6 +10,7 @@ struct LoginAppUserResult
 {
 	DenateHTTPResponse httpResponse;
 	bool loggedIn;
+	std::string token;
 	DenateUserDetails userDetails;
 };
 
@@ -82,7 +83,7 @@ namespace DenateAppUser {
 		bool dedicatedServer = false;
 
 		/** Replaces a substring with another*/
-		void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
+		static void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
 
 	public:
 

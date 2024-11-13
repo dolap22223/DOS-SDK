@@ -95,6 +95,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -123,6 +124,7 @@ namespace DenateAppUser {
             userDetails.appUserID = jsonResponse["response"]["appuserID"];
 
             token = jsonResponse["token"];
+            result.token = jsonResponse["token"];
         }
 
         result.httpResponse = httpResponse;
@@ -179,6 +181,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -207,6 +210,7 @@ namespace DenateAppUser {
             userDetails.appUserID = jsonResponse["response"]["appuserID"];
 
             token = jsonResponse["token"];
+            result.token = jsonResponse["token"];
         }
 
         result.httpResponse = httpResponse;
@@ -264,6 +268,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -437,6 +442,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -511,6 +517,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -585,6 +592,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -638,9 +646,6 @@ namespace DenateAppUser {
 
             curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
 
-            std::cout << postfield << std::endl;
-            std::cout << url << std::endl;
-
             /*std::string json = R"({"email_or_username": ")" + EmailOrIdOrUsername + R"("})";
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());*/
 
@@ -666,6 +671,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -736,6 +742,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
@@ -807,6 +814,7 @@ namespace DenateAppUser {
                 fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 httpResponse.requestSuccessful = false;
                 std::cout << "Denate Request Failed" << std::endl;
+                return result;
             }
             else {
                 fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));

@@ -8,6 +8,8 @@ namespace DenateTypes {
 		
 	}
 
+
+
 	std::string DOS_DenateTypes::getdenateapiURL()
 	{
 		//std::string localurl = denateapiURL;
