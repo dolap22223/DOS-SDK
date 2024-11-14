@@ -159,11 +159,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DOS_Online_Save.cpp" />
     <ClCompile Include="src\DenateTypes.cpp" />
     <ClCompile Include="src\DOS_Achievement.cpp" />
     <ClCompile Include="src\DOS_AppUser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DOS_Online_Save.h" />
     <ClInclude Include="src\DenateTypes.h" />
     <ClInclude Include="src\DOS_Achievement.h" />
     <ClInclude Include="src\DOS_AppUser.h" />

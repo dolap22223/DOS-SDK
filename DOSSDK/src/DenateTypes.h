@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <curl/curl.h>
-
+#include <vector>
 
 
 
@@ -44,15 +44,6 @@ public:
 
 typedef	struct DenateFilterResult
 {
-
-	DenateFilterResult()
-	{
-		title = "";
-		value = "";
-	}
-
-public:
-
 	std::string title;
 
 	std::string value;
@@ -390,7 +381,6 @@ typedef	struct DenatePlayerOnlineSaveDetail
 
 	DenatePlayerOnlineSaveDetail()
 	{
-		objectBytes = "";
 		SaveID = "";
 		filters = "";
 		Tag = "";
@@ -399,7 +389,7 @@ typedef	struct DenatePlayerOnlineSaveDetail
 public:
 
 		
-	std::string objectBytes;
+	std::vector<int> objectBytes;
 
 		
 	std::string SaveID;
@@ -637,13 +627,18 @@ namespace DenateTypes {
 	{
 	public:
 
+		/** Constructor */
 		DOS_DenateTypes();
 
+		/** Base url of the denate API */
 		static const std::string denateapiURL(){
 			return "http://localhost:3000/api/v1/";
 		}
 
+		/** returns the base url of the denate API*/
 		static std::string getdenateapiURL();
+
+		
 
 	protected:
 		

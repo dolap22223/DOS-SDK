@@ -24,6 +24,9 @@
     <ClCompile Include="src\DOS_AppUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DOS_Online_Save.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DOS_Achievement.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DOS_AppUser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DOS_Online_Save.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

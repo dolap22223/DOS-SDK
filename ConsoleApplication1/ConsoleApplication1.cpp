@@ -4,6 +4,7 @@
 #include <iostream>
 #include <DOS_Achievement.h>
 #include <DenateTypes.h>
+#include <DOS_Online_Save.h>
 #include <DOS_AppUser.h>
 #include <curl/curl.h>
 
@@ -24,12 +25,16 @@ int main()
     LoginAppUserResult localone;
     localone = appuser.LoginDenateAppUserById("dpp");
 
-    DenateAchievement::DOS_Achievement achievement("userID", "appID", false, localone.token);
+    DenateOnlineSave::DOS_Online_Save onlinesave("userID", "appID", false, localone.token, localone.userDetails);
 
-    LockOrUnlockAchievementByAchievementResult achievementresult;
-    achievementresult = achievement.LockOrUnlockAchievementByAchievementName("achievement_name", true, "test");
+    //DenateFilterResult value1 = { "ebe", "value1" }; DenateFilterResult value2 = { "dgbd", "value2" }; DenateFilterResult value3 = { "dbdb","fsfb" };
+    //std::vector<DenateFilterResult> myvector = { value1, value2, value3 };
+    std::vector<DenateFilterResult> localresult;
+    std::string localfilter = "dss=wrrw,iiwr=wwrpppp,mmmm=iiiii";
+    std::string onlinesaveresult;
+    localresult = onlinesave.BreakDenateFilter(localfilter);
 
-    std::cout << achievementresult.httpResponse.message << std::endl;
+    std::cout << localresult[0].value << std::endl;
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 
