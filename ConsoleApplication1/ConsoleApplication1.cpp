@@ -6,6 +6,7 @@
 #include <DenateTypes.h>
 #include <DOS_Online_Save.h>
 #include <DOS_AppUser.h>
+#include <DOS_Friends.h>
 #include <curl/curl.h>
 
 int main()

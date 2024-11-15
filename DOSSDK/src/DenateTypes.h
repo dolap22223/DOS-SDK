@@ -5,13 +5,13 @@
 
 
 
-typedef enum class DenateRequestResult: UINT8 
+enum class DenateRequestResult: UINT8 
 {
 	RequestSuccessful,
 	RequestFailed
 };
 
-typedef enum class EServerHostResult : UINT8
+enum class EServerHostResult : UINT8
 {
 	HostingSuccessful ,
 	HostingFailed
@@ -24,13 +24,13 @@ typedef	enum class EFindMatchResult : UINT8
 	MatchNotFound
 };
 
-typedef struct DenateLeaderboardResult
+struct DenateLeaderboardResult
 {
-	DenateLeaderboardResult()
+	DenateLeaderboardResult(std::string playerName = "", std::string filters = "", std::string LeaderboardName = "")
 	{
-		playerName = "";
-		filters = "";
-		LeaderboardName = "";
+		this->playerName = playerName;
+		this->filters = filters;
+		this->LeaderboardName = LeaderboardName;
 	}
 
 public:
@@ -44,6 +44,14 @@ public:
 
 typedef	struct DenateFilterResult
 {
+
+	DenateFilterResult(std::string title = "", std::string value = "")
+	{
+		this->title = title;
+		this->value = value;
+	}
+public:
+
 	std::string title;
 
 	std::string value;
@@ -52,13 +60,13 @@ typedef	struct DenateFilterResult
 typedef	struct DenateFriendDetails
 {
 
-	DenateFriendDetails()
+	DenateFriendDetails(std::string playerName = "", std::string picture = "", bool online = false, bool inGame = false, std::string appUserID = "")
 	{
-		playerName = "";
-		picture = "";
-		online = false;
-		inGame = false;
-		appUserID = "";
+		this->playerName = playerName;
+		this->picture = picture;
+		this->online = online;
+		this->inGame = inGame;
+		this->appUserID = appUserID;
 	}
 
 public:
@@ -78,17 +86,18 @@ public:
 typedef	struct DenatePlayerAchievementDetails
 {
 
-	DenatePlayerAchievementDetails()
+	DenatePlayerAchievementDetails(std::string achievementName = "", std::string achievementDescription = "", std::string lockedAchievementName = "", std::string lockedAchievementDescription = "", std::string unlockedAchievementName = "", std::string unlockedAchievementDescription = "", std::string achievementID = "", std::string unlockedAchievementImageURL = "", std::string lockedAchievementImageURL = "", bool unlocked = false)
 	{
-		achievementName = "";
-		achievementDescription = "";
-		lockedAchievementName = "";
-		lockedAchievementDescription = "";
-		unlockedAchievementName = "";
-		unlockedAchievementDescription = "";
-		achievementID = "";
-		unlockedAchievementImageURL = "";
-		unlocked = false;
+		this->achievementName = achievementName;
+		this->achievementDescription = achievementDescription;
+		this->lockedAchievementName = lockedAchievementName;
+		this->lockedAchievementDescription = lockedAchievementDescription;
+		this->unlockedAchievementName = unlockedAchievementName;
+		this->unlockedAchievementDescription = unlockedAchievementDescription;
+		this->achievementID = achievementID;
+		this->unlockedAchievementImageURL = unlockedAchievementImageURL;
+		this->lockedAchievementImageURL = lockedAchievementImageURL;
+		this->unlocked = unlocked;
 	}
 
 public:
@@ -128,17 +137,17 @@ public:
 typedef	struct DenateAchievementDetails
 {
 
-	DenateAchievementDetails()
+	DenateAchievementDetails(std::string achievementName = "", std::string achievementDescription = "", std::string lockedAchievementName = "", std::string lockedAchievementDescription = "", std::string unlockedAchievementName = "", std::string unlockedAchievementDescription = "", std::string achievementID = "", std::string unlockedAchievementImageURL = "", std::string lockedAchievementImageURL = "", bool unlocked = false)
 	{
-		achievementName = "";
-		achievementDescription = "";
-		lockedAchievementName = "";
-		lockedAchievementDescription = "";
-		unlockedAchievementName = "";
-		unlockedAchievementDescription = "";
-		achievementID = "";
-		lockedAchievementImageURL = "";
-		unlockedAchievementImageURL = "";
+		this->achievementName = achievementName;
+		this->achievementDescription = achievementDescription;
+		this->lockedAchievementName = lockedAchievementName;
+		this->lockedAchievementDescription = lockedAchievementDescription;
+		this->unlockedAchievementName = unlockedAchievementName;
+		this->unlockedAchievementDescription = unlockedAchievementDescription;
+		this->achievementID = achievementID;
+		this->lockedAchievementImageURL = lockedAchievementImageURL;
+		this->unlockedAchievementImageURL = unlockedAchievementImageURL;
 	}
 
 public:
@@ -175,10 +184,10 @@ public:
 typedef	struct DenateRoomDetails
 {
 
-	DenateRoomDetails()
+	DenateRoomDetails(std::string roomId = "", std::string clientId = "")
 	{
-		roomId = "";
-		clientId = "";
+		this->roomId = roomId;
+		this->clientId = clientId;
 	}
 
 public:
@@ -205,11 +214,11 @@ public:
 		
 	bool muted;
 
-	DenatePlayerVoiceInfo()
+	DenatePlayerVoiceInfo(bool microphoneDisabled = false, bool muted = false, std::string playerName = "")
 	{
-		microphoneDisabled = false;
-		muted = false;
-		playerName = "";
+		this->microphoneDisabled = microphoneDisabled;
+		this->muted = muted;
+		this->playerName = playerName;
 	}
 
 	bool operator==(const DenatePlayerVoiceInfo& Other)
@@ -241,11 +250,11 @@ public:
 	std::string playerName;
 
 
-	DenateVoiceChannelDetails()
+	DenateVoiceChannelDetails(std::string channelId = "", std::string clientId = "", std::string playerName = "" )
 	{
-		channelId = "";
-		clientId = "";
-		playerName = "";
+		this->channelId = channelId;
+		this->clientId = clientId;
+		this->playerName = playerName;
 	}
 
 	bool operator==(const DenateVoiceChannelDetails& Other)
@@ -265,16 +274,16 @@ public:
 typedef	struct DenateSearchUserDetails
 {
 
-	DenateSearchUserDetails()
+	DenateSearchUserDetails(std::string playerName = "", std::string picture = "", std::string appUserID = "", bool online = false, bool inGame = false, bool friendRequestSent = false, bool friendRequestRecieved = false, bool is_a_Friend = false)
 	{
-		playerName = "";
-		picture = "";
-		appUserID = "";
-		online = false;
-		inGame = false;
-		friendRequestSent = false;
-		friendRequestRecieved = false;
-		is_a_Friend = false;
+		this->playerName = playerName;
+		this->picture = picture;
+		this->appUserID = appUserID;
+		this->online = online;
+		this->inGame = inGame;
+		this->friendRequestSent = friendRequestSent;
+		this->friendRequestRecieved = friendRequestRecieved;
+		this->is_a_Friend = is_a_Friend;
 	}
 
 public:
@@ -307,11 +316,11 @@ public:
 typedef	struct DenateHTTPResponse
 {
 		
-	DenateHTTPResponse()
+	DenateHTTPResponse(int status_code = 0, std::string message = "", bool requestSuccessful = false)
 	{
-		status_code = 0;
-		message = "";
-		requestSuccessful = false;
+		this->status_code = status_code;
+		this->message = message;
+		this->requestSuccessful = requestSuccessful;
 	}
 
 public:
@@ -329,10 +338,10 @@ public:
 typedef	struct DenateTeamPlayersDetails
 {
 
-	DenateTeamPlayersDetails()
+	DenateTeamPlayersDetails(std::string playerName = "", std::string clientId = "")
 	{
-		playerName = "";
-		clientId = "";
+		this->playerName = playerName;
+		this->clientId = clientId;
 	}
 
 public:
@@ -359,11 +368,11 @@ public:
 typedef	struct DenateOnlineSaveDetail
 {
 
-	DenateOnlineSaveDetail()
+	DenateOnlineSaveDetail(std::string saveID = "", std::string filters = "", std::string Tag = "")
 	{
-		SaveID = "";
-		filters = "";
-		Tag = "";
+		this->SaveID = saveID;
+		this->filters = filters;
+		this->Tag = Tag;
 	}
 
 public:
@@ -379,11 +388,13 @@ public:
 typedef	struct DenatePlayerOnlineSaveDetail
 {
 
-	DenatePlayerOnlineSaveDetail()
+	DenatePlayerOnlineSaveDetail(std::vector<int> objectBytes = {}, std::string saveID = "", std::string filters = "", std::string Tag = "")
 	{
-		SaveID = "";
-		filters = "";
-		Tag = "";
+
+		this->objectBytes = objectBytes;
+		this->SaveID = saveID;
+		this->filters = filters;
+		this->Tag = Tag;
 	}
 
 public:
@@ -405,10 +416,10 @@ public:
 typedef	struct DenateTeamMatchDetail
 {
 
-	DenateTeamMatchDetail()
+	DenateTeamMatchDetail(std::string filters = "", std::string TeamID = "")
 	{
-		filters = "";
-		TeamID = "";
+		this->filters = filters;
+		this->TeamID = TeamID;
 	}
 
 public:
@@ -424,14 +435,14 @@ public:
 typedef	struct DenateTeamDetails
 {
 
-	DenateTeamDetails()
+	DenateTeamDetails(int matchId = 0, std::string serverName = "", int maxPlayers = 0, std::string filters = "", bool isPrivateMatch = false, std::string teamId = "")
 	{
-		matchId = 0;
-		serverName = "";
-		maxPlayers = 0;
-		filters = "";
-		isPrivateMatch = false;
-		teamId = "";
+		this->matchId = matchId;
+		this->serverName = serverName;
+		this->maxPlayers = maxPlayers;
+		this->filters = filters;
+		this->isPrivateMatch = isPrivateMatch;
+		this->teamId = teamId;
 	}
 
 public:
@@ -470,16 +481,16 @@ public:
 typedef	struct DenatePrivateMatchDetails
 {
 
-	DenatePrivateMatchDetails()
+	DenatePrivateMatchDetails(int matchId = 0, std::string serverName = "", int maxPlayers = 0, std::string filters = "", std::string ipAddress = "", std::string mapName = "", std::string playerName = "", std::string gameCode = "")
 	{
-		matchId = 0;
-		serverName = "";
-		maxPlayers = 0;
-		filters = "";
-		ipAddress = "";
-		mapName = "";
-		playerName = "";
-		gameCode = "";
+		this->matchId = matchId;
+		this->serverName = serverName;
+		this->maxPlayers = maxPlayers;
+		this->filters = filters;
+		this->ipAddress = ipAddress;
+		this->mapName = mapName;
+		this->playerName = playerName;
+		this->gameCode = gameCode;
 	}
 
 public:
@@ -514,15 +525,15 @@ public:
 typedef	struct DenateMatchDetails
 {
 		
-	DenateMatchDetails()
+	DenateMatchDetails(int matchId = 0, std::string serverName = "", int maxPlayers = 0, std::string filters = "", std::string ipAddress = "", std::string mapName = "", std::string playerName = "")
 	{
-		matchId = 0;
-		serverName = "";
-		maxPlayers = 0;
-		filters = "";
-		ipAddress = "";
-		mapName = "";
-		playerName = "";
+		this->matchId = matchId;
+		this->serverName = serverName;
+		this->maxPlayers = maxPlayers;
+		this->filters = filters;
+		this->ipAddress = ipAddress;
+		this->mapName = mapName;
+		this->playerName = playerName;
 	}
 
 public:
@@ -554,14 +565,14 @@ public:
 typedef	struct DenateUserDetails
 {
 		
-	DenateUserDetails()
+	DenateUserDetails(std::string emailOrId = "", std::string username = "", std::string firstName = "", std::string lastName = "", std::string picture = "", std::string appUserID = "")
 	{
-		emailOrId = "";
-		username = "";
-		firstName = "";
-		lastName = "";
-		picture = "";
-		appUserID = "";
+		this->emailOrId = emailOrId;
+		this->username = username;
+		this->firstName = firstName;
+		this->lastName = lastName;
+		this->picture = picture;
+		this->appUserID = appUserID;
 	}
 
 public:
@@ -586,17 +597,17 @@ public:
 };
 
 	
-typedef struct DenatePlayersMatchDetails
+struct DenatePlayersMatchDetails
 {
 		
-	DenatePlayersMatchDetails()
+	DenatePlayersMatchDetails(std::string playerName, std::string serverName, std::string joinedDate, int maxPlayers = 0, bool isServer = false, bool isPrivateMatch = false )
 	{
-		playerName = "";
-		serverName = "";
-		joinedDate = "";
-		maxPlayers = 0;
-		isServer = false;
-		isPrivateMatch = false;
+		this->playerName = playerName;
+		this->serverName = serverName;
+		this->joinedDate = joinedDate;
+		this->maxPlayers = maxPlayers;
+		this->isServer = isServer;
+		this->isPrivateMatch = isPrivateMatch;
 	}
 
 public:
