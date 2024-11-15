@@ -7,6 +7,12 @@
 #include <vector>
 #include "DenateTypes.h"
 
+struct AddFriendResult
+{
+    DenateHTTPResponse httpResponse;
+    bool friendRequestSent;
+};
+
 namespace DenateFriends
 {
 
@@ -34,6 +40,8 @@ namespace DenateFriends
     public:
 
         DOS_Friends(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails);
+
+        AddFriendResult AddFriend(std::string friendName);
 
 	};
 
