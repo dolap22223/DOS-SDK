@@ -35,9 +35,9 @@ int main()
     std::string onlinesaveresult;
     localresult = onlinesave.BreakDenateFilter(localfilter);*/
 
-    AddFriendResult localfriend;
+    GetInvitesResultResult localfriend;
     
-    localfriend = denatefriend.AddFriend("dolapoopusername");
+    localfriend = denatefriend.GetInvites();
 
     std::cout << localfriend.httpResponse.message << std::endl;
 

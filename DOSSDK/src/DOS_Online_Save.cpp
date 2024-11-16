@@ -27,7 +27,7 @@ namespace DenateOnlineSave
 
     }
 
-    void DenateOnlineSave::DOS_Online_Save::replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement)
+    void DOS_Online_Save::replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement)
     {
         size_t pos = 0;
         while ((pos = original.find(toReplace, pos)) != std::string::npos)

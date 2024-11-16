@@ -13,7 +13,7 @@ namespace DenateAchievement {
 
     }
 
-    void  DenateAchievement::DOS_Achievement::replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement)
+    void DOS_Achievement::replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement)
     {
         size_t pos = 0;
         while ((pos = original.find(toReplace, pos)) != std::string::npos)
@@ -32,7 +32,7 @@ namespace DenateAchievement {
         this->userDetails = userDetails;
     }
 
-    GetAllGameAchievementsResult DenateAchievement::DOS_Achievement::GetAllGameAchievements()
+    GetAllGameAchievementsResult DOS_Achievement::GetAllGameAchievements()
     {
         CURL* curl;
         CURLcode res;
@@ -133,7 +133,7 @@ namespace DenateAchievement {
         return result;
     }
 
-    GetAllGameAchievementsResult DenateAchievement::DOS_Achievement::GetAllPlayerUnlockedAchievements(std::string playerName)
+    GetAllGameAchievementsResult DOS_Achievement::GetAllPlayerUnlockedAchievements(std::string playerName)
     {
         CURL* curl;
         CURLcode res;
@@ -237,7 +237,7 @@ namespace DenateAchievement {
         return result;
     }
 
-    GetAllGameAchievementsResult DenateAchievement::DOS_Achievement::GetAllPlayerLockedAchievements(std::string playerName)
+    GetAllGameAchievementsResult DOS_Achievement::GetAllPlayerLockedAchievements(std::string playerName)
     {
         CURL* curl;
         CURLcode res;
@@ -338,7 +338,7 @@ namespace DenateAchievement {
         return result;
     }
 
-    LockOrUnlockAchievementByAchievementResult DenateAchievement::DOS_Achievement::LockOrUnlockAchievementByAchievementName(std::string achievementName, bool Unlock, std::string playerName)
+    LockOrUnlockAchievementByAchievementResult DOS_Achievement::LockOrUnlockAchievementByAchievementName(std::string achievementName, bool Unlock, std::string playerName)
     {
         CURL* curl;
         CURLcode res;
@@ -438,7 +438,7 @@ namespace DenateAchievement {
         return result;
     }
 
-    LockOrUnlockAchievementByAchievementResult DenateAchievement::DOS_Achievement::LockOrUnlockAchievementByAchievementID(std::string achievementID, bool Unlock, std::string playerName)
+    LockOrUnlockAchievementByAchievementResult DOS_Achievement::LockOrUnlockAchievementByAchievementID(std::string achievementID, bool Unlock, std::string playerName)
     {
         CURL* curl;
         CURLcode res;
@@ -538,7 +538,7 @@ namespace DenateAchievement {
         return result;
     }
 
-    GetAllPlayerAchievementsResult DenateAchievement::DOS_Achievement::GetAllPlayerAchievements(std::string playerName)
+    GetAllPlayerAchievementsResult DOS_Achievement::GetAllPlayerAchievements(std::string playerName)
     {
         CURL* curl;
         CURLcode res;
