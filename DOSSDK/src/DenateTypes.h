@@ -269,6 +269,34 @@ public:
 
 };
 
+typedef	struct DenatePlayerChannelDetails
+{
+
+public:
+
+	std::string channelId;
+
+
+	std::string clientId;
+
+
+	DenatePlayerChannelDetails(std::string channelId = "", std::string clientId = "")
+	{
+		this->channelId = channelId;
+		this->clientId = clientId;
+	}
+
+	bool operator==(const DenatePlayerChannelDetails& Other)
+	{
+		return channelId == Other.channelId && clientId == Other.clientId;
+	}
+
+	friend bool operator==(const DenatePlayerChannelDetails& A, const DenatePlayerChannelDetails& B)
+	{
+		return A.channelId == B.channelId && A.clientId == B.clientId;
+	}
+
+};
 
 	
 typedef	struct DenateSearchUserDetails

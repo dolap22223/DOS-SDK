@@ -159,6 +159,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DOS_Local_Match.cpp" />
+    <ClCompile Include="src\DOS_Connection.cpp" />
+    <ClCompile Include="src\DOS_Voice_Chat.cpp" />
     <ClCompile Include="src\DOS_Leaderboard.cpp" />
     <ClCompile Include="src\DOS_Friends.cpp" />
     <ClCompile Include="src\DOS_Online_Save.cpp" />
@@ -167,6 +170,9 @@
     <ClCompile Include="src\DOS_AppUser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DOS_Local_Match.h" />
+    <ClInclude Include="src\DOS_Connection.h" />
+    <ClInclude Include="src\DOS_Voice_Chat.h" />
     <ClInclude Include="src\DOS_Leaderboard.h" />
     <ClInclude Include="src\DOS_Friends.h" />
     <ClInclude Include="src\DOS_Online_Save.h" />
