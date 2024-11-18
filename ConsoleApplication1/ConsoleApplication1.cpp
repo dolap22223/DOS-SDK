@@ -9,6 +9,7 @@
 #include <DOS_Friends.h>
 #include <DOS_Leaderboard.h>
 #include <DOS_Voice_Chat.h>
+#include <DOS_Local_Match.h>
 #include <curl/curl.h>
 
 int main()
@@ -28,7 +29,7 @@ int main()
     LoginAppUserResult localone;
     localone = appuser.LoginDenateAppUserById("dpp");
 
-    DenateVoiceChat::DOS_Voice_Chat denatefriend("userID", "appID", false, localone.token, localone.userDetails);
+    DenateLocalMatch::DOS_Local_Match denatefriend("userID", "appID", false, localone.token, localone.userDetails);
 
     //DenateFilterResult value1 = { "ebe", "value1" }; DenateFilterResult value2 = { "dgbd", "value2" }; DenateFilterResult value3 = { "dbdb","fsfb" };
     //std::vector<DenateFilterResult> myvector = { value1, value2, value3 };
@@ -37,9 +38,13 @@ int main()
     std::string onlinesaveresult;
     localresult = onlinesave.BreakDenateFilter(localfilter);*/
 
-    GetAllPlayerConnectedChannelsResult localfriend;
+    HostDenatePrivateLocalMatchResult createdmatch;
+
+    createdmatch = denatefriend.HostDenatePrivateLocalMatch("ssfv", "svs=sdds,wicd=wwcs", 44, "rrvbb");
+
+    UpdateDenatePrivateLocalMatchResult localfriend;
     
-    localfriend = denatefriend.GetAllPlayerConnectedChannels();
+    localfriend = denatefriend.UpdateDenateLocalPrivateMatch("wwwwwwww");
 
     std::cout << localfriend.httpResponse.message << std::endl;
 
