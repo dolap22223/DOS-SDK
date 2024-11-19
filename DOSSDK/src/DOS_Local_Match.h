@@ -63,6 +63,65 @@ struct FindDenateLocalMatchesResult
     std::vector<DenateMatchDetails> matchDetails;
 };
 
+struct CreateTeamResult
+{
+    DenateHTTPResponse httpResponse;
+    bool teamCreated;
+    std::string teamID;
+};
+
+struct JoinTeamResult
+{
+    DenateHTTPResponse httpResponse;
+    bool teamJoined;
+    DenateTeamDetails teamDetails;
+};
+
+struct LeaveTeamResult
+{
+    DenateHTTPResponse httpResponse;
+    bool leftTeam;
+};
+
+struct DestroyTeamResult
+{
+    DenateHTTPResponse httpResponse;
+    bool teamDestroyed;
+};
+
+struct GetPlayersInTeamResult
+{
+    DenateHTTPResponse httpResponse;
+    bool gottenPlayers;
+    std::vector<DenateTeamPlayersDetails> teamPlayers;
+};
+
+struct GetTeamsInMatchResult
+{
+    DenateHTTPResponse httpResponse;
+    bool gottenTeams;
+    std::vector<DenateTeamMatchDetail> teamsDetails;
+};
+
+struct GetPlayersTeamResult
+{
+    DenateHTTPResponse httpResponse;
+    bool gottenTeam;
+    DenateTeamMatchDetail teamDetail;
+};
+
+struct ReportPlayerResult
+{
+    DenateHTTPResponse httpResponse;
+    bool playerReported;
+};
+
+struct InviteFriendResult
+{
+    DenateHTTPResponse httpResponse;
+    bool inviteSent;
+};
+
 namespace DenateLocalMatch
 {
 
@@ -88,12 +147,6 @@ namespace DenateLocalMatch
         /** Replaces a substring with another*/
         void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
 
-        /** Details of the match the intance is a part of */
-        DenateMatchDetails currentMatchDetail;
-
-        /** Details of the match the intance is a part of provided they are in a private match */
-        DenatePrivateMatchDetails currentPrivateMatchDetail;
-
     public:
 
         /** Constructor */
@@ -104,6 +157,15 @@ namespace DenateLocalMatch
 
         /** Tue if the current instance hosted the match*/
         bool isServer = false;
+
+        /** Details of the match the intance is a part of */
+        DenateMatchDetails currentMatchDetail;
+
+        /** Details of the match the intance is a part of provided they are in a private match */
+        DenatePrivateMatchDetails currentPrivateMatchDetail;
+
+        /** Details of the team the instance is a part of, provided they've joined a team */
+        DenateTeamDetails currentTeamDetail;
 
         /** Breaksdown a filter into its title and value
         * @param filter filters you would like to break
@@ -255,6 +317,60 @@ namespace DenateLocalMatch
         * @return UpdateDenatePrivateLocalMatchResult
         */
         UpdateDenatePrivateLocalMatchResult UpdateDenateLocalPrivateMatch(std::string mapName = "", std::string filters = "", int maxPlayers = 0, std::string serverName = "", std::string playerName = "");
+
+        /** Creates a Team which players can join
+        * @param Filters used to specify extra info about the leaderboard for example (score=50,name=john). Its recommended you use the make filter function
+        * @return CreateTeamResult
+        */
+        CreateTeamResult CreateTeam(std::string filters);
+
+        /** joins a Team
+        * @param TeamID Unique ID of the team you would like to join
+        * @return JoinTeamResult
+        */
+        JoinTeamResult JoinTeam(std::string teamID);
+
+        /** Leave a Team. If teamID is not specified, the current instance will leave the team they are currently a part of
+        * @param TeamID Unique ID of the team you would like to leave (OPTIONAL)
+        * @return LeaveTeamResult
+        */
+        LeaveTeamResult LeaveTeam(std::string teamID = "");
+
+        /** Destroy a Team.
+        * @param TeamID Unique ID of the team you would like to destroy
+        * @return DestroyTeamResult
+        */
+        DestroyTeamResult DestroyTeam(std::string teamID);
+
+        /** gets all players within a team. If you wish to get the players in your current team, leave TeamID empty
+        * @param TeamID Unique ID of the team you would like to get all the players within it
+        * @return GetPlayersInTeamResult
+        */
+        GetPlayersInTeamResult GetPlayersInTeam(std::string teamID);
+
+        /** gets all teams within a match
+        * @return GetTeamsInMatchResult
+        */
+        GetTeamsInMatchResult GetTeamsInMatch();
+
+        /** gets a players team. If you wish to get the team of the current player, leave player name empty
+        * @param player_name name of the player you would like to get all the channels they are connected to, leave empty to specify yourself (OPTIONAL)
+        * @return GetPlayersTeamResult
+        */
+        GetPlayersTeamResult GetPlayersTeam(std::string playerName = "");
+
+        /** Reports a player
+        * @param name_of_player_to_report name(Denate Username) of the player to report
+        * @return ReportPlayerResult
+        */
+        ReportPlayerResult ReportPlayer(std::string nameOfPlayerToReport, std::string reason = "");
+
+        /** Invites a friend to a match
+        * @param friend_name name(Denate Username) of the friend to invite
+        * @return InviteFriendResult
+        */
+        InviteFriendResult InviteFriend(std::string friendName);
+
 	};
 
 }

@@ -42,11 +42,19 @@ int main()
 
     createdmatch = denatefriend.HostDenatePrivateLocalMatch("ssfv", "svs=sdds,wicd=wwcs", 44, "rrvbb");
 
-    UpdateDenatePrivateLocalMatchResult localfriend;
-    
-    localfriend = denatefriend.UpdateDenateLocalPrivateMatch("wwwwwwww");
+    CreateTeamResult hostedteam;
 
-    std::cout << localfriend.httpResponse.message << std::endl;
+    hostedteam = denatefriend.CreateTeam("svs=sdds,wicd=wwcs");
+
+    JoinTeamResult localfriend;
+    
+    localfriend = denatefriend.JoinTeam(hostedteam.teamID);
+    
+    InviteFriendResult leftteam;
+
+    leftteam = denatefriend.InviteFriend("dpp");
+
+    std::cout << leftteam.httpResponse.message << std::endl;
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 

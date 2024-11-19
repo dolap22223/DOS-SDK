@@ -187,7 +187,7 @@ namespace DenateLocalMatch
         curl = curl_easy_init();
         if (curl) {
 
-            //replaceSubstring(Tag, " ", "%20");
+            replaceSubstring(filters, " ", "");
 
             std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("localmatch/createlocalmatch"));
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -305,7 +305,7 @@ namespace DenateLocalMatch
         curl = curl_easy_init();
         if (curl) {
 
-            //replaceSubstring(Tag, " ", "%20");
+            replaceSubstring(filters, " ", "");
 
             std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("privatematch/hostprivatematch"));
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -1129,7 +1129,7 @@ namespace DenateLocalMatch
             curl_slist_free_all(headers);
             curl_easy_cleanup(curl);
         }
-        std::cout << readBuffer << std::endl;
+        //std::cout << readBuffer << std::endl;
 
         nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
 
@@ -1636,7 +1636,7 @@ namespace DenateLocalMatch
             curl_slist_free_all(headers);
             curl_easy_cleanup(curl);
         }
-        std::cout << readBuffer << std::endl;
+        //std::cout << readBuffer << std::endl;
 
         nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
 
@@ -1694,6 +1694,12 @@ namespace DenateLocalMatch
         DenateHTTPResponse httpResponse;
         DenateMatchDetails matchDetails;
 
+        if (currentMatchDetail.ipAddress == "" && currentMatchDetail.serverName == "")
+        {
+            std::cout << "You have to be part of a match to update it" << std::endl;
+            return result;
+        }
+
         curl_global_init(CURL_GLOBAL_DEFAULT);
 
         curl = curl_easy_init();
@@ -1703,6 +1709,7 @@ namespace DenateLocalMatch
             std::string tempIpaddr = currentMatchDetail.ipAddress;
 
             replaceSubstring(tempServerName, " ", "%20");
+            replaceSubstring(filters, " ", "");
 
             std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("localmatch/updatelocalmatch/") + std::string(tempIpaddr) + "/" + std::string(tempServerName) + "/" + std::string(appID));
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -1750,7 +1757,7 @@ namespace DenateLocalMatch
             curl_slist_free_all(headers);
             curl_easy_cleanup(curl);
         }
-        std::cout << readBuffer << std::endl;
+        //std::cout << readBuffer << std::endl;
 
         nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
 
@@ -1803,10 +1810,18 @@ namespace DenateLocalMatch
         DenateHTTPResponse httpResponse;
         DenatePrivateMatchDetails matchDetails;
 
+        if (currentPrivateMatchDetail.ipAddress == "" && currentPrivateMatchDetail.serverName == "")
+        {
+            std::cout << "You have to be part of a match to update it" << std::endl;
+            return result;
+        }
+
         curl_global_init(CURL_GLOBAL_DEFAULT);
 
         curl = curl_easy_init();
         if (curl) {
+
+            replaceSubstring(filters, " ", "");
 
             std::string tempServerName = currentPrivateMatchDetail.serverName;
 
@@ -1899,6 +1914,866 @@ namespace DenateLocalMatch
 
         return result;
 
+    }
+
+    CreateTeamResult DOS_Local_Match::CreateTeam(std:: string filters)
+    {
+        CURL* curl;
+        CURLcode res;
+        CreateTeamResult result;
+        std::string readBuffer;
+        bool teamCreated = false;
+        DenateHTTPResponse httpResponse;
+        std::string teamID;
+
+        if (isPrivateMatch)
+        {
+            if (currentPrivateMatchDetail.ipAddress == "" && currentPrivateMatchDetail.serverName == "")
+            {
+                std::cout << "You have to be part of a match to create a team" << std::endl;
+                return result;
+            }
+        }
+        else {
+            if (currentMatchDetail.ipAddress == "" && currentMatchDetail.serverName == "")
+            {
+                std::cout << "You have to be part of a match to create a team" << std::endl;
+                return result;
+            }
+        }
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            replaceSubstring(filters, " ", "");
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/createteam"));
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            std::string json = "";
+            if (isPrivateMatch)
+            {
+                json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("server_name": ")" + currentPrivateMatchDetail.serverName + "\"" + "," + R"("is_private_match": )" + "true" + "," + R"("max_players": )" + std::to_string(currentPrivateMatchDetail.maxPlayers) + "," + R"("match_id": )" + std::to_string(currentPrivateMatchDetail.matchId) + "," + R"("filter": ")" + filters + R"("})";
+            }
+            else {
+                json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("server_name": ")" + currentMatchDetail.serverName + "\"" + "," + R"("is_private_match": )" + "false" + "," + R"("max_players": )" + std::to_string(currentMatchDetail.maxPlayers) + "," + R"("match_id": )" + std::to_string(currentMatchDetail.matchId) + "," + R"("filter": ")" + filters + R"("})";
+            }
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            teamCreated = true;
+
+            if (!jsonResponse["response"].is_null())
+            {
+                if (jsonResponse["response"].contains("teamID") && !jsonResponse["response"]["teamID"].is_null())
+                {
+                    teamID = jsonResponse["response"]["teamID"];
+                }
+
+            }
+        }
+
+        result.httpResponse = httpResponse;
+        result.teamCreated = teamCreated;
+        result.teamID = teamID;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    JoinTeamResult DOS_Local_Match::JoinTeam(std::string teamID)
+    {
+        CURL* curl;
+        CURLcode res;
+        JoinTeamResult result;
+        std::string readBuffer;
+        bool teamJoined = false;
+        DenateHTTPResponse httpResponse;
+        DenateTeamDetails teamDetails;
+
+        if (isPrivateMatch)
+        {
+            if (currentPrivateMatchDetail.ipAddress == "" && currentPrivateMatchDetail.serverName == "")
+            {
+                std::cout << "You have to be part of a match to join a team" << std::endl;
+                return result;
+            }
+        }
+        else {
+            if (currentMatchDetail.ipAddress == "" && currentMatchDetail.serverName == "")
+            {
+                std::cout << "You have to be part of a match to join a team" << std::endl;
+                return result;
+            }
+        }
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/jointeam"));
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            std::string json = "";
+            if (isPrivateMatch)
+            {
+                json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("player_name": ")" + userDetails.username + "\"" + "," + R"("match_id": )" + std::to_string(currentPrivateMatchDetail.matchId) + "," + R"("teamID": ")" + teamID + R"("})";
+            }
+            else {
+                json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("player_name": ")" + userDetails.username + "\"" + "," + R"("match_id": )" + std::to_string(currentMatchDetail.matchId) + "," + R"("teamID": ")" + teamID + R"("})";
+            }
+            //std::cout << json << std::endl;
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            teamJoined = true;
+
+            if (!jsonResponse["response"].is_null())
+            {
+                teamDetails.filters = !jsonResponse["response"]["filter"].is_null() ? jsonResponse["response"]["filter"] : "";
+                teamDetails.serverName = !jsonResponse["response"]["server_name"].is_null() ? jsonResponse["response"]["server_name"] : "";
+                
+                if (jsonResponse["response"].contains("teamID") && !jsonResponse["response"]["teamID"].is_null())
+                {
+                    teamDetails.teamId = jsonResponse["response"]["teamID"];
+                }
+                if (jsonResponse["response"].contains("match_id") && !jsonResponse["response"]["match_id"].is_null())
+                {
+                    teamDetails.matchId = jsonResponse["response"]["match_id"];
+                }
+                if (jsonResponse["response"].contains("is_private_match") && !jsonResponse["response"]["is_private_match"].is_null())
+                {
+                    teamDetails.isPrivateMatch = jsonResponse["response"]["is_private_match"];
+                }
+                if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
+                {
+                    teamDetails.maxPlayers = jsonResponse["response"]["max_players"];
+                }
+
+                currentTeamDetail = teamDetails;
+            }
+        }
+
+        result.httpResponse = httpResponse;
+        result.teamJoined = teamJoined;
+        result.teamDetails = teamDetails;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    LeaveTeamResult DOS_Local_Match::LeaveTeam(std::string teamID)
+    {
+        CURL* curl;
+        CURLcode res;
+        LeaveTeamResult result;
+        std::string readBuffer;
+        bool leftTeam = false;
+        DenateHTTPResponse httpResponse;
+
+        if (isPrivateMatch)
+        {
+            if (currentPrivateMatchDetail.ipAddress == "" && currentPrivateMatchDetail.serverName == "")
+            {
+                std::cout << "You have to be part of a match to leave a team" << std::endl;
+                return result;
+            }
+        }
+        else {
+            if (currentMatchDetail.ipAddress == "" && currentMatchDetail.serverName == "")
+            {
+                std::cout << "You have to be part of a match to leave a team" << std::endl;
+                return result;
+            }
+        }
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            if (teamID == "")
+            {
+                teamID = currentTeamDetail.teamId;
+            }
+
+            std::string tempPlayerName = userDetails.username;
+            replaceSubstring(tempPlayerName, " ", "%20");
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/leaveteam/") + std::string(tempPlayerName));
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            //std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            leftTeam = true;
+        }
+
+        result.httpResponse = httpResponse;
+        result.leftTeam = leftTeam;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    DestroyTeamResult DOS_Local_Match::DestroyTeam(std::string teamID)
+    {
+        CURL* curl;
+        CURLcode res;
+        DestroyTeamResult result;
+        std::string readBuffer;
+        bool teamDestroyed = false;
+        DenateHTTPResponse httpResponse;
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            if (teamID == "")
+            {
+                teamID = currentTeamDetail.teamId;
+            }
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/destroyteam/") + std::string(teamID));
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            //std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            teamDestroyed = true;
+        }
+
+        result.httpResponse = httpResponse;
+        result.teamDestroyed = teamDestroyed;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    GetPlayersInTeamResult DOS_Local_Match::GetPlayersInTeam(std::string teamID)
+    {
+        CURL* curl;
+        CURLcode res;
+        GetPlayersInTeamResult result;
+        std::string readBuffer;
+        bool gottenPlayers = false;
+        DenateHTTPResponse httpResponse;
+        std::vector<DenateTeamPlayersDetails> teamPlayers;
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/getplayersinteam/") + std::string(teamID));
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            gottenPlayers = true;
+
+            if (!jsonResponse["response"].is_null())
+            {
+                if (jsonResponse["response"].is_array())
+                {
+                    for (auto& player : jsonResponse["response"])
+                    {
+                        DenateTeamPlayersDetails playerdetail;
+
+                        playerdetail.clientId = !player["client_id"].is_null() ? player["client_id"] : "";
+                        playerdetail.playerName = !player["player_name"].is_null() ? player["player_name"] : "";
+
+                        teamPlayers.push_back(playerdetail);
+                    }
+                }
+            }
+        }
+
+        result.httpResponse = httpResponse;
+        result.gottenPlayers = gottenPlayers;
+        result.teamPlayers = teamPlayers;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    GetTeamsInMatchResult DOS_Local_Match::GetTeamsInMatch()
+    {
+        CURL* curl;
+        CURLcode res;
+        GetTeamsInMatchResult result;
+        std::string readBuffer;
+        bool gottenTeams = false;
+        DenateHTTPResponse httpResponse;
+        std::vector<DenateTeamMatchDetail> teamDetails;
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            std::string url = "";
+
+            if (isPrivateMatch)
+            {
+                url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/getteamsinmatch/") + std::string(std::to_string(currentPrivateMatchDetail.matchId)) + "/" + std::string(appID));
+            }
+            else {
+                url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/getteamsinmatch/") + std::string(std::to_string(currentMatchDetail.matchId)) + "/" + std::string(appID));
+            }
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            //std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            gottenTeams = true;
+
+            if (!jsonResponse["response"].is_null())
+            {
+                if (jsonResponse["response"].is_array())
+                {
+                    for (auto& player : jsonResponse["response"])
+                    {
+                        DenateTeamMatchDetail teamdetail;
+
+                        teamdetail.filters = !player["filter"].is_null() ? player["filter"] : "";
+                        teamdetail.TeamID = !player["teamID"].is_null() ? player["teamID"] : "";
+
+                        teamDetails.push_back(teamdetail);
+                    }
+                }
+            }
+        }
+
+        result.httpResponse = httpResponse;
+        result.gottenTeams = gottenTeams;
+        result.teamsDetails = teamDetails;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    GetPlayersTeamResult DOS_Local_Match::GetPlayersTeam(std::string playerName)
+    {
+        CURL* curl;
+        CURLcode res;
+        GetPlayersTeamResult result;
+        std::string readBuffer;
+        bool gottenTeam = false;
+        DenateHTTPResponse httpResponse;
+        DenateTeamMatchDetail teamDetails;
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            if (playerName == "")
+            {
+                playerName = userDetails.username;
+            }
+
+            replaceSubstring(playerName, " ", "%20");
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("denateteams/getplayersteam/") + std::string(playerName) + "/" + std::string(appID));
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            //std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            gottenTeam = true;
+
+            if (!jsonResponse["response"].is_null())
+            {
+                
+                teamDetails.filters = !jsonResponse["response"]["filter"].is_null() ? jsonResponse["response"]["filter"] : "";
+                teamDetails.TeamID = !jsonResponse["response"]["teamID"].is_null() ? jsonResponse["response"]["teamID"] : "";
+
+            }
+        }
+
+        result.httpResponse = httpResponse;
+        result.gottenTeam = gottenTeam;
+        result.teamDetail = teamDetails;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    ReportPlayerResult DOS_Local_Match::ReportPlayer(std::string nameOfPlayerToReport, std::string reason)
+    {
+        CURL* curl;
+        CURLcode res;
+        ReportPlayerResult result;
+        std::string readBuffer;
+        bool playerReported = false;
+        DenateHTTPResponse httpResponse;
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("playerreport/createplayerreport"));
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            std::string json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("from_player_name": ")" + userDetails.username + "\"" + "," + R"("to_player_name": ")" + nameOfPlayerToReport + "\"" + "," + R"("reason": ")" + reason + R"("})";;
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            playerReported = true;
+        }
+
+        result.httpResponse = httpResponse;
+        result.playerReported = playerReported;
+
+        curl_global_cleanup();
+
+        return result;
+    }
+
+    InviteFriendResult DOS_Local_Match::InviteFriend(std::string friendName)
+    {
+        CURL* curl;
+        CURLcode res;
+        InviteFriendResult result;
+        std::string readBuffer;
+        bool inviteSent = false;
+        DenateHTTPResponse httpResponse;
+
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        curl = curl_easy_init();
+        if (curl) {
+
+            std::string url = (DenateTypes::DOS_DenateTypes::getdenateapiURL().c_str() + std::string("localmatch/invitefriend/"));
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            std::cout << url << std::endl;
+
+            //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
+            //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
+
+            std::string json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("player_name": ")" + userDetails.username + "\"" + "," + R"("friend_name": ")" + friendName + "\"" + "," + R"("friend_appuserID": ")" + "" + "\"" + "," + R"("player_appuserID": ")" + "" + R"("})";;
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+
+            struct curl_slist* headers = NULL;
+            //headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, ("appID: " + std::string(appID)).c_str());
+            headers = curl_slist_append(headers, ("userID: " + std::string(userID)).c_str());
+            headers = curl_slist_append(headers, ("token: " + std::string(token)).c_str());
+
+            std::string dedicatedServerString;
+            dedicatedServer ? dedicatedServerString = "True" : "False";
+            headers = curl_slist_append(headers, ("dedicatedServer: " + std::string(dedicatedServerString)).c_str());
+
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "Request Failed . Curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = false;
+                std::cout << "Denate Request Failed" << std::endl;
+                return result;
+            }
+            else {
+                fprintf(stdout, "Request Successful . Curl_easy_perform() Success: %s\n", curl_easy_strerror(res));
+                httpResponse.requestSuccessful = true;
+                std::cout << "Denate Request Successful" << std::endl;
+            }
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
+        //std::cout << readBuffer << std::endl;
+
+        nlohmann::json jsonResponse = nlohmann::json::parse(readBuffer);
+
+        httpResponse.status_code = jsonResponse["status"];
+        httpResponse.message = jsonResponse["message"];
+
+        if (jsonResponse.contains("response"))
+        {
+            inviteSent = true;
+        }
+
+        result.httpResponse = httpResponse;
+        result.inviteSent = inviteSent;
+
+        curl_global_cleanup();
+
+        return result;
     }
 
 }
