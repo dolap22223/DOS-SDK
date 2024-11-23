@@ -674,9 +674,16 @@ namespace DenateTypes {
 			return "http://localhost:3000/api/v1/";
 		}
 
+		/** Base url of the denate API gateway */
+		static const std::string denateapigatewayURL() {
+			return "http://127.0.0.1:3001/";
+		}
+
 		/** returns the base url of the denate API*/
 		static std::string getdenateapiURL();
 
+		/** returns the base url of the denate gateway API*/
+		static std::string getdenateapigatewayURL();
 		
 
 	protected:

@@ -31,4 +31,10 @@ namespace DenateTypes {
 		return denateapiURL();
 	}
 
+	std::string DOS_DenateTypes::getdenateapigatewayURL()
+	{
+		//std::string localurl = denateapiURL;
+		return denateapigatewayURL();
+	}
+
 }

@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

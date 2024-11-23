@@ -10,7 +10,8 @@
 #include <DOS_Leaderboard.h>
 #include <DOS_Voice_Chat.h>
 #include <DOS_Local_Match.h>
-#include <curl/curl.h>
+#include <DOS_Connection.h>
+//#include <curl/curl.h>
 
 int main()
 {
@@ -38,7 +39,7 @@ int main()
     std::string onlinesaveresult;
     localresult = onlinesave.BreakDenateFilter(localfilter);*/
 
-    HostDenatePrivateLocalMatchResult createdmatch;
+    /*HostDenatePrivateLocalMatchResult createdmatch;
 
     createdmatch = denatefriend.HostDenatePrivateLocalMatch("ssfv", "svs=sdds,wicd=wwcs", 44, "rrvbb");
 
@@ -54,7 +55,23 @@ int main()
 
     leftteam = denatefriend.InviteFriend("dpp");
 
-    std::cout << leftteam.httpResponse.message << std::endl;
+    std::cout << leftteam.httpResponse.message << std::endl;*/
+
+    DenateConnection::DOS_Connection denateconnection("userID", "appID", false, localone.token, localone.userDetails);
+
+    bool joined = false;
+
+    //denateconnection.OnDenateOnlineServiceConnected([&]() { std::cout << "sfmfsbkmmmmmmmmmmmmmkfssfbsfbsfbsb" << std::endl; });
+
+    denateconnection.EstablishDenateConnection(false);
+
+    if (joined)
+    {
+        std::cout << "True" << std::endl;
+    }
+    else {
+        std::cout << "False" << std::endl;
+    }
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 
