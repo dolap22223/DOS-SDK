@@ -178,7 +178,7 @@ namespace DenateConnection
                 });
 
             sioClient.connect(url, query, headers);
-            sio::socket::ptr namespaceSocket = sioClient.socket("/denateconnectiongateway");
+            namespaceSocket = sioClient.socket("/denateconnectiongateway");
 
             namespaceSocket->on("playerconnected", [&](sio::event& ev) {
 

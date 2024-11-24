@@ -5,7 +5,9 @@
 #include <curl/curl.h>
 #include <json.hpp>
 #include <vector>
+#include <sio_client.h>
 #include "DenateTypes.h"
+#include "DOS_Connection.h"
 
 struct CreateVoiceChannelResult
 {
@@ -51,6 +53,15 @@ namespace DenateVoiceChat
 
 	class DOS_Voice_Chat
 	{
+    protected:
+
+        typedef std::function<void(DenateVoiceChannelDetails playerChannelDetail)> playerJoinVoiceChannelListener;
+
+        typedef std::function<void(DenateVoiceChannelDetails playerChannelDetail)> playerLeftVoiceChannelListener;
+
+        typedef std::function<void(std::string channel)> playerDestroyVoiceChannelListener;
+
+        typedef std::function<void(std::string playerName, std::vector<int> audioData)> recieveVoiceDataListener;
 
     private:
         /** userID credential */
@@ -68,13 +79,53 @@ namespace DenateVoiceChat
         /** Details of the user after logging in */
         DenateUserDetails userDetails;
 
+        /** Denate connection */
+        DenateConnection::DOS_Connection& internalDenateConnection;
+
         /** Replaces a substring with another*/
         void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
 
+        /** Internal use only*/
+        playerJoinVoiceChannelListener internalPlayerJoinVoiceChannel;
+
+        /** Internal use only*/
+        playerLeftVoiceChannelListener internalPlayerLeftVoiceChannel;
+
+        /** Internal use only*/
+        playerDestroyVoiceChannelListener internalPlayerDestroyVoiceChannel;
+
+        /** Internal use only*/
+        recieveVoiceDataListener internalRecieveVoiceData;
+
+
     public:
 
+        /** Called when a player joins a channel */
+        void OnPlayerJoinVoiceChannel(playerJoinVoiceChannelListener const& playerJoinVoiceChannel);
+
+        /** Called when a player leaves a channel you  are a part of */
+        void OnPlayerLeftVoiceChannel(playerLeftVoiceChannelListener const& playerLeftVoiceChannel);
+
+        /** Called when a channel is destroyed */
+        void OnPlayerDestroyVoiceChannel(playerDestroyVoiceChannelListener const& playerDestroyVoiceChannel);
+
+        /** Called when audio data is sent */
+        void OnRecieveVoiceData(recieveVoiceDataListener const& recieveVoiceData);
+
         /** Constructor */
-        DOS_Voice_Chat(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails);
+        DOS_Voice_Chat(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails, DenateConnection::DOS_Connection& denateConnection);
+
+        /** Details of the last voice channel you joined */
+        DenateVoiceChannelDetails currentVoiceChannel;
+
+        /** Namespace socket for the denate voice chat */
+        sio::socket::ptr namespaceSocket;
+
+        /** True if the denate voice chat has been activated*/
+        bool voiceChatActivated;
+
+        /** holds all connected channels */
+        std::vector<DenateVoiceChannelDetails> allConnectedChannels;
 
         /** Breaksdown a filter into its title and value
         * @param filter filters you would like to break
@@ -124,6 +175,15 @@ namespace DenateVoiceChat
         * @return GetAllPlayerConnectedChannelsResult
         */
         GetAllPlayerConnectedChannelsResult GetAllPlayerConnectedChannels(std::string playerName = "");
+
+        /** Activates the denate voice chat */
+        void Activate();
+
+        /** Deactivates the denate voice chat */
+        void Deactivate();
+
+        /** Sends the voice audio data */
+        void sendAudioData(std::vector<int> audioData, std::vector<std::string> clients);
 
 	};
 

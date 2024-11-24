@@ -38,7 +38,7 @@ namespace DenateFriends
         }
     }
 
-    DOS_Friends::DOS_Friends(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails)
+    DOS_Friends::DOS_Friends(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails, DenateConnection::DOS_Connection& denateConnection): internalDenateConnection(denateConnection)
     {
         this->userID = userID;
         this->appID = appID;
@@ -117,6 +117,23 @@ namespace DenateFriends
         if (jsonResponse.contains("response"))
         {
             friendRequestSent = true;
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["appID"] = sio::string_message::create(appID);
+                    jsonMessage->get_map()["player_name"] = sio::string_message::create(std::string(jsonResponse["response"]["friend_name"]));
+                    jsonMessage->get_map()["friend_name"] = sio::string_message::create(std::string(jsonResponse["response"]["player_name"]));
+
+                    internalDenateConnection.namespaceSocket->emit("addplayer", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        });
+                }
+            }
+
         }
 
         result.httpResponse = httpResponse;
@@ -443,6 +460,23 @@ namespace DenateFriends
         if (jsonResponse.contains("response"))
         {
             declined = true;
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["appID"] = sio::string_message::create(appID);
+                    jsonMessage->get_map()["player_name"] = sio::string_message::create(std::string(jsonResponse["response"]["friend_name"]));
+                    jsonMessage->get_map()["friend_name"] = sio::string_message::create(std::string(jsonResponse["response"]["player_name"]));
+
+                    internalDenateConnection.namespaceSocket->emit("denyfriendrequest", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        });
+                }
+            }
+
         }
 
         result.httpResponse = httpResponse;
@@ -601,6 +635,23 @@ namespace DenateFriends
         if (jsonResponse.contains("response"))
         {
             accepted = true;
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["appID"] = sio::string_message::create(appID);
+                    jsonMessage->get_map()["player_name"] = sio::string_message::create(std::string(jsonResponse["response"]["friend_name"]));
+                    jsonMessage->get_map()["friend_name"] = sio::string_message::create(std::string(jsonResponse["response"]["player_name"]));
+
+                    internalDenateConnection.namespaceSocket->emit("acceptfriendrequest", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        });
+                }
+            }
+
         }
 
         result.httpResponse = httpResponse;
@@ -898,7 +949,7 @@ namespace DenateFriends
             if (jsonResponse["response"]["max_players"].is_null() && jsonResponse["response"].contains("max_players"))
             {
                 matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
-            }
+            } 
 
         }
 

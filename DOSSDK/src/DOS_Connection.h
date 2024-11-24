@@ -45,9 +45,6 @@ namespace DenateConnection
         /** Details of the user after logging in */
         DenateUserDetails userDetails;
 
-        /** Socket IO client */
-        sio::client sioClient;
-
         /** Replaces a substring with another*/
         void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
 
@@ -94,6 +91,12 @@ namespace DenateConnection
 
         /** If the current instance of this game is connected to denate online service. */
         bool isDenateOnlineServiceConnected;
+
+        /** Socket IO client */
+        sio::client sioClient;
+        
+        /** Namespace socket for the denate connection */
+        sio::socket::ptr namespaceSocket;
 
         /** Breaksdown a filter into its title and value
         * @param filter filters you would like to break

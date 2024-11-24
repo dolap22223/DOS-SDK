@@ -6,6 +6,7 @@
 #include <json.hpp>
 #include <vector>
 #include "DenateTypes.h"
+#include "DOS_Connection.h"
 
 struct AddFriendResult
 {
@@ -103,13 +104,16 @@ namespace DenateFriends
         /** Details of the user after logging in */
         DenateUserDetails userDetails;
 
+        /** Denate connection */
+        DenateConnection::DOS_Connection& internalDenateConnection;
+
         /** Replaces a substring with another*/
         void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
 
     public:
 
         /** Constructor */
-        DOS_Friends(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails);
+        DOS_Friends(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails, DenateConnection::DOS_Connection& denateConnection);
 
         /** Sends a friend request to a player
         * @param friend_name Name of friend to add

@@ -5,7 +5,9 @@
 #include <curl/curl.h>
 #include <json.hpp>
 #include <vector>
+#include <sio_client.h>
 #include "DenateTypes.h"
+#include "DOS_Connection.h"
 
 struct HostDenateLocalMatchResult
 {
@@ -144,13 +146,16 @@ namespace DenateLocalMatch
         /** Details of the user after logging in */
         DenateUserDetails userDetails;
 
+        /** Denate connection */
+        DenateConnection::DOS_Connection& internalDenateConnection;
+
         /** Replaces a substring with another*/
         void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
 
     public:
 
         /** Constructor */
-        DOS_Local_Match(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails);
+        DOS_Local_Match(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails, DenateConnection::DOS_Connection& denateConnection);
 
         /** True if the current instance is part of a private match*/
         bool isPrivateMatch = false;
@@ -370,6 +375,9 @@ namespace DenateLocalMatch
         * @return InviteFriendResult
         */
         InviteFriendResult InviteFriend(std::string friendName);
+
+        /** Namespace socket for the denate voice chat */
+        sio::socket::ptr namespaceSocket;
 
 	};
 

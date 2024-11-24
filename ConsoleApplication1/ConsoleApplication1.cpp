@@ -11,6 +11,7 @@
 #include <DOS_Voice_Chat.h>
 #include <DOS_Local_Match.h>
 #include <DOS_Connection.h>
+#include <thread>
 //#include <curl/curl.h>
 
 int main()
@@ -65,6 +66,19 @@ int main()
 
     denateconnection.EstablishDenateConnection(false);
 
+    DenateVoiceChat::DOS_Voice_Chat voicechat("userID", "appID", false, localone.token, localone.userDetails, denateconnection);
+    voicechat.Activate();
+    std::string sesid = denateconnection.sioClient.get_sessionid();
+
+    CreateVoiceChannelResult createvcresult;
+    createvcresult = voicechat.CreateVoiceChannel();
+
+    JoinVoiceChannelResult joinvcresult;
+    joinvcresult = voicechat.JoinVoiceChannel(createvcresult.channelID);
+
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    voicechat.sendAudioData({ 2,3,24,4 }, { "gwwgwggr", voicechat.allConnectedChannels[0].clientId});
+
     if (joined)
     {
         std::cout << "True" << std::endl;
@@ -72,6 +86,8 @@ int main()
     else {
         std::cout << "False" << std::endl;
     }
+
+    std::this_thread::sleep_for(std::chrono::seconds(30));
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 

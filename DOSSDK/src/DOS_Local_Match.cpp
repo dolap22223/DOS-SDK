@@ -125,7 +125,7 @@ namespace DenateLocalMatch
         }
     }
 
-    DOS_Local_Match::DOS_Local_Match(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails)
+    DOS_Local_Match::DOS_Local_Match(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails, DenateConnection::DOS_Connection& denateConnection) : internalDenateConnection(denateConnection)
     {
         this->userID = userID;
         this->appID = appID;
