@@ -172,6 +172,30 @@ namespace DenateLocalMatch
         /** Details of the team the instance is a part of, provided they've joined a team */
         DenateTeamDetails currentTeamDetail;
 
+        /** Namespace socket for the denate voice chat */
+        sio::socket::ptr namespaceSocket;
+
+        /** Namespace socket for the denate team */
+        sio::socket::ptr namespaceTeamSocket;
+
+        /** Details of the room (Match) a player is a part of */
+        DenateRoomDetails roomDetails;
+
+        /** Details of the current team a user is a part of provided they are on a match */
+        DenateTeamDetails currentTeam;
+
+        /** Contains all the team details of every player in your team */
+        std::vector<DenateTeamPlayersDetails> currentTeamPlayers;
+
+        /** True if the current instance is in a match*/
+        bool isInMatch;
+
+        /** Activates the denate voice chat */
+        void ActivateDenateMatchConnection(bool isServer, bool isPrivateMatch);
+
+        /** Deactivates the denate voice chat */
+        bool DeactivateDenateMatchConnection(bool isServer, bool isPrivateMatch);
+
         /** Breaksdown a filter into its title and value
         * @param filter filters you would like to break
         * @return DenateFilterResult
@@ -376,8 +400,14 @@ namespace DenateLocalMatch
         */
         InviteFriendResult InviteFriend(std::string friendName);
 
-        /** Namespace socket for the denate voice chat */
-        sio::socket::ptr namespaceSocket;
+        /** Ends a denate match */
+        bool EndDenateMatch();
+
+        /** Broadcasts message to the team you are a part of */
+        bool BroadcastMessageToTeam(std::string message);
+
+        /** Broadcasts message to the match you are a part of */
+        bool BroadcastMessageToMatch(std::string message);
 
 	};
 

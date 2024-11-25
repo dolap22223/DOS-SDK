@@ -276,6 +276,8 @@ namespace DenateLocalMatch
                 isPrivateMatch = false;
                 isServer = true;
 
+                ActivateDenateMatchConnection(true, false);
+
             }
         }
 
@@ -394,6 +396,8 @@ namespace DenateLocalMatch
                 isPrivateMatch = true;
                 isServer = true;
 
+                ActivateDenateMatchConnection(true, true);
+
             }
         }
 
@@ -506,6 +510,8 @@ namespace DenateLocalMatch
                 currentMatchDetail = matchDetails;
                 isPrivateMatch = false;
                 isServer = false;
+
+                ActivateDenateMatchConnection(false, false);
 
             }
         }
@@ -620,6 +626,8 @@ namespace DenateLocalMatch
                 isPrivateMatch = false;
                 isServer = false;
 
+                ActivateDenateMatchConnection(false, false);
+
             }
         }
 
@@ -733,6 +741,8 @@ namespace DenateLocalMatch
                 isPrivateMatch = false;
                 isServer = false;
 
+                ActivateDenateMatchConnection(false, false);
+
             }
         }
 
@@ -844,6 +854,8 @@ namespace DenateLocalMatch
                 currentMatchDetail = matchDetails;
                 isPrivateMatch = false;
                 isServer = false;
+
+                ActivateDenateMatchConnection(false, false);
 
             }
         }
@@ -958,6 +970,8 @@ namespace DenateLocalMatch
                 currentPrivateMatchDetail = matchDetails;
                 isPrivateMatch = true;
                 isServer = false;
+
+                ActivateDenateMatchConnection(false, true);
 
             }
         }
@@ -2248,6 +2262,41 @@ namespace DenateLocalMatch
         if (jsonResponse.contains("response"))
         {
             leftTeam = true;
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    if (namespaceTeamSocket)
+                    {
+                        sio::message::ptr jsonMessage = sio::object_message::create();
+
+                        jsonMessage->get_map()["player_name"] = sio::string_message::create(userDetails.username);
+                        jsonMessage->get_map()["appID"] = sio::string_message::create(appID);
+                        jsonMessage->get_map()["userID"] = sio::string_message::create(userID);
+                        jsonMessage->get_map()["teamID"] = sio::string_message::create(currentTeam.teamId);
+
+                        std::string currentPlayerClientId;
+
+                        for (int i = 0; i < currentTeamPlayers.size(); i++)
+                        {
+                            if (currentTeamPlayers[i].playerName == userDetails.username)
+                            {
+                                currentPlayerClientId = currentTeamPlayers[i].clientId;
+                            }
+                        }
+
+                        jsonMessage->get_map()["client_id"] = sio::string_message::create(currentPlayerClientId);
+
+                        namespaceTeamSocket->emit("leaveteam", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                            });
+
+                    }
+
+                }
+            }
+
         }
 
         result.httpResponse = httpResponse;
@@ -2328,6 +2377,30 @@ namespace DenateLocalMatch
         if (jsonResponse.contains("response"))
         {
             teamDestroyed = true;
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    if (namespaceTeamSocket)
+                    {
+                        sio::message::ptr jsonMessage = sio::object_message::create();
+
+                        jsonMessage->get_map()["player_name"] = sio::string_message::create(userDetails.username);
+                        jsonMessage->get_map()["appID"] = sio::string_message::create(appID);
+                        jsonMessage->get_map()["userID"] = sio::string_message::create(userID);
+                        jsonMessage->get_map()["teamID"] = sio::string_message::create(currentTeam.teamId);
+                        jsonMessage->get_map()["client_id"] = sio::string_message::create("");
+
+                        namespaceTeamSocket->emit("destroyteam", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                            });
+
+                    }
+
+                }
+            }
+
         }
 
         result.httpResponse = httpResponse;
@@ -2766,6 +2839,26 @@ namespace DenateLocalMatch
         if (jsonResponse.contains("response"))
         {
             inviteSent = true;
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["friend_name"] = sio::string_message::create(jsonResponse["response"]["friend_name"]);
+                    jsonMessage->get_map()["player_name"] = sio::string_message::create(std::string(userDetails.username));
+                    jsonMessage->get_map()["appID"] = sio::string_message::create(std::string(appID));
+
+                    namespaceSocket->emit("inviteplayer", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        std::cout << "Invite Sent" << std::endl;
+
+                        });
+
+                }
+            }
+
         }
 
         result.httpResponse = httpResponse;
@@ -2774,6 +2867,388 @@ namespace DenateLocalMatch
         curl_global_cleanup();
 
         return result;
+    }
+
+    bool DOS_Local_Match::EndDenateMatch()
+    {
+        return DeactivateDenateMatchConnection(this->isServer, this->isPrivateMatch);
+    }
+
+    void DOS_Local_Match::ActivateDenateMatchConnection(bool isServer, bool isPrivateMatch)
+    {
+        namespaceSocket = internalDenateConnection.sioClient.socket("/matchgateway");
+        if (namespaceSocket)
+        {
+
+            if (isPrivateMatch)
+            {
+                namespaceSocket->on("joinedroom", [&](sio::event& ev) {
+
+                    std::cout << "A player just joined your match" << std::endl;
+
+                    std::string username;
+                    std::string servername;
+                    bool localisserver = false;
+
+                    auto data = ev.get_message();
+
+                    if (data->get_flag() == sio::message::flag_object)
+                    {
+                        auto jsonObj = data->get_map();
+
+                        if (jsonObj.find("username") != jsonObj.end())
+                        {
+                            username = jsonObj["username"]->get_string();
+                        }
+                        if (jsonObj.find("server_name") != jsonObj.end())
+                        {
+                            servername = jsonObj["server_name"]->get_string();
+                        }
+                        if (jsonObj.find("is_server") != jsonObj.end())
+                        {
+                            bool isServerNum = jsonObj["is_server"]->get_int();
+                            isServerNum ? localisserver = true : localisserver = false;
+                        }
+                    }
+
+                    if (internalPlayerJoinedPrivateMatch)
+                    {
+                        internalPlayerJoinedPrivateMatch(username, servername, localisserver);
+                    }
+
+                    });
+
+                namespaceSocket->on("leftroom", [&](sio::event& ev) {
+
+                    std::cout << "A player just joined your match" << std::endl;
+
+                    std::string username;
+                    std::string servername;
+                    bool localisserver = false;
+
+                    auto data = ev.get_message();
+
+                    if (data->get_flag() == sio::message::flag_object)
+                    {
+                        auto jsonObj = data->get_map();
+
+                        if (jsonObj.find("username") != jsonObj.end())
+                        {
+                            username = jsonObj["username"]->get_string();
+                        }
+                        if (jsonObj.find("server_name") != jsonObj.end())
+                        {
+                            servername = jsonObj["server_name"]->get_string();
+                        }
+                        if (jsonObj.find("is_server") != jsonObj.end())
+                        {
+                            bool isServerNum = jsonObj["is_server"]->get_int();
+                            isServerNum ? localisserver = true : localisserver = false;
+                        }
+                    }
+
+                    if (internalPlayerLeftPrivateMatch)
+                    {
+                        internalPlayerLeftPrivateMatch(username, servername, localisserver);
+                    }
+
+                    });
+            }
+            else {
+
+                namespaceSocket->on("joinedroom", [&](sio::event& ev) {
+
+                    std::cout << "A player just joined your match" << std::endl;
+
+                    std::string username;
+                    std::string servername;
+                    bool localisserver = false;
+
+                    auto data = ev.get_message();
+
+                    if (data->get_flag() == sio::message::flag_object)
+                    {
+                        auto jsonObj = data->get_map();
+
+                        if (jsonObj.find("username") != jsonObj.end())
+                        {
+                            username = jsonObj["username"]->get_string();
+                        }
+                        if (jsonObj.find("server_name") != jsonObj.end())
+                        {
+                            servername = jsonObj["server_name"]->get_string();
+                        }
+                        if (jsonObj.find("is_server") != jsonObj.end())
+                        {
+                            bool isServerNum = jsonObj["is_server"]->get_int();
+                            isServerNum ? localisserver = true : localisserver = false;
+                        }
+                    }
+
+                    if (internalPlayerJoinedMatch)
+                    {
+                        internalPlayerJoinedMatch(username, servername, localisserver);
+                    }
+
+                    });
+
+                namespaceSocket->on("leftroom", [&](sio::event& ev) {
+
+                    std::cout << "A player just joined your match" << std::endl;
+
+                    std::string username;
+                    std::string servername;
+                    bool localisserver = false;
+
+                    auto data = ev.get_message();
+
+                    if (data->get_flag() == sio::message::flag_object)
+                    {
+                        auto jsonObj = data->get_map();
+
+                        if (jsonObj.find("username") != jsonObj.end())
+                        {
+                            username = jsonObj["username"]->get_string();
+                        }
+                        if (jsonObj.find("server_name") != jsonObj.end())
+                        {
+                            servername = jsonObj["server_name"]->get_string();
+                        }
+                        if (jsonObj.find("is_server") != jsonObj.end())
+                        {
+                            bool isServerNum = jsonObj["is_server"]->get_int();
+                            isServerNum ? localisserver = true : localisserver = false;
+                        }
+                    }
+
+                    if (internalPlayerLeftMatch)
+                    {
+                        internalPlayerLeftMatch(username, servername, localisserver);
+                    }
+
+                    });
+
+            }
+
+            namespaceSocket->on("getroomdetails", [&](sio::event& ev) {
+
+                DenateRoomDetails roomdetails;
+                std::string clientId;
+                std::string room;
+
+                auto data = ev.get_message();
+
+                if (data->get_flag() == sio::message::flag_object)
+                {
+                    auto jsonObj = data->get_map();
+                    if (jsonObj.find("client_id") != jsonObj.end())
+                    {
+                        clientId = jsonObj["client_id"]->get_string();
+                    }
+                    if (jsonObj.find("room") != jsonObj.end())
+                    {
+                        room = jsonObj["room"]->get_string();
+                    }
+                }
+
+                roomdetails.clientId = clientId;
+                roomdetails.roomId = room;
+
+                roomDetails = roomdetails;
+
+                });
+
+
+            namespaceSocket->on("messagebroadcasted", [&](sio::event& ev) {
+
+                DenateRoomDetails roomdetails;
+                std::string username;
+                std::string message;
+
+                auto data = ev.get_message();
+
+                if (data->get_flag() == sio::message::flag_object)
+                {
+                    auto jsonObj = data->get_map();
+                    if (jsonObj.find("message") != jsonObj.end())
+                    {
+                        message = jsonObj["message"]->get_string();
+                    }
+                    if (jsonObj.find("username") != jsonObj.end())
+                    {
+                        username = jsonObj["username"]->get_string();
+                    }
+                }
+
+                if (internalMessageBroadcastedToMatch)
+                {
+                    internalMessageBroadcastedToMatch(username, message);
+                }
+
+                });
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["username"] = sio::string_message::create(userDetails.username);
+                    jsonMessage->get_map()["email"] = sio::string_message::create(std::string(userDetails.emailOrId));
+                    jsonMessage->get_map()["room"] = sio::string_message::create(std::string(""));
+                    jsonMessage->get_map()["client_id"] = sio::string_message::create(std::string(""));
+                    jsonMessage->get_map()["is_server"] = sio::int_message::create(isServer ? 1 : 0);
+                    jsonMessage->get_map()["is_private_match"] = sio::int_message::create(isPrivateMatch ? 1 : 0);
+                    jsonMessage->get_map()["appID"] = sio::string_message::create(std::string(appID));
+
+                    if (isPrivateMatch)
+                    {
+                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentPrivateMatchDetail.matchId);
+                        jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentPrivateMatchDetail.serverName));
+                    }
+                    else {
+                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentMatchDetail.matchId);
+                        jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentMatchDetail.serverName));
+                    }
+                    
+                    namespaceSocket->emit("joinroom", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        this->isServer = isServer;
+
+                        isInMatch = true;
+
+                        });
+
+                }
+            }
+
+        }
+    }
+
+    bool DOS_Local_Match::DeactivateDenateMatchConnection(bool isServer, bool isPrivateMatch)
+    {
+        
+        if (isInMatch)
+        {
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["username"] = sio::string_message::create(userDetails.username);
+                    jsonMessage->get_map()["email"] = sio::string_message::create(std::string(userDetails.emailOrId));
+                    jsonMessage->get_map()["room"] = sio::string_message::create(std::string(""));
+                    jsonMessage->get_map()["client_id"] = sio::string_message::create(std::string(""));
+                    jsonMessage->get_map()["is_server"] = sio::int_message::create(isServer ? 1 : 0);
+                    jsonMessage->get_map()["is_private_match"] = sio::int_message::create(isPrivateMatch ? 1 : 0);
+                    jsonMessage->get_map()["appID"] = sio::string_message::create(std::string(appID));
+
+                    if (isPrivateMatch)
+                    {
+                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentPrivateMatchDetail.matchId);
+                        jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentPrivateMatchDetail.serverName));
+                    }
+                    else {
+                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentMatchDetail.matchId);
+                        jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentMatchDetail.serverName));
+                    }
+
+                    namespaceSocket->emit("leaveroom", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        });
+
+                }
+            }
+
+            isInMatch = false;
+
+            if (isPrivateMatch)
+            {
+                currentPrivateMatchDetail.filters = "";
+                currentPrivateMatchDetail.ipAddress = "";
+                currentPrivateMatchDetail.mapName = "";
+                currentPrivateMatchDetail.maxPlayers = 0;
+                currentPrivateMatchDetail.playerName = "";
+                currentPrivateMatchDetail.serverName = "";
+                currentPrivateMatchDetail.matchId = 0;
+            }
+            else {
+                currentMatchDetail.filters = "";
+                currentMatchDetail.ipAddress = "";
+                currentMatchDetail.mapName = "";
+                currentMatchDetail.maxPlayers = 0;
+                currentMatchDetail.playerName = "";
+                currentMatchDetail.serverName = "";
+                currentMatchDetail.matchId = 0;
+            }
+
+            namespaceSocket->close();
+            return true;
+        }
+        else {
+            std::cout << "You must be a part of a match to end it" << std::endl;
+            return false;
+        }
+
+    }
+
+    bool DOS_Local_Match::BroadcastMessageToTeam(std::string message)
+    {
+
+        if (currentTeam.teamId == "" && currentTeam.serverName == "") {
+            std::cout << "A team has to be joined first before you can send a message" << std::endl;
+            return false;
+        }
+
+        if (&internalDenateConnection != nullptr)
+        {
+            if (internalDenateConnection.isDenateOnlineServiceConnected)
+            {
+                if (namespaceTeamSocket)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["message"] = sio::string_message::create(message);
+
+                    namespaceTeamSocket->emit("broadcastmessagetoteam", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        std::cout << "Message sent to team" << std::endl;
+
+                        });
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    bool DOS_Local_Match::BroadcastMessageToMatch(std::string message)
+    {
+
+        if (&internalDenateConnection != nullptr)
+        {
+            if (internalDenateConnection.isDenateOnlineServiceConnected)
+            {
+                if (namespaceSocket)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["message"] = sio::string_message::create(message);
+
+                    namespaceSocket->emit("broadcastmessage", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        std::cout << "Message sent to match" << std::endl;
+
+                        });
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 
 }
