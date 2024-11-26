@@ -60,11 +60,11 @@ int main()
 
     DenateConnection::DOS_Connection denateconnection("userID", "appID", false, localone.token, localone.userDetails);
 
-    bool joined = false;
+    //bool joined = false;
 
     //denateconnection.OnDenateOnlineServiceConnected([&]() { std::cout << "sfmfsbkmmmmmmmmmmmmmkfssfbsfbsfbsb" << std::endl; });
 
-    denateconnection.EstablishDenateConnection(false);
+    //denateconnection.EstablishDenateConnection(false);
 
     DenateLocalMatch::DOS_Local_Match denatefriend("userID", "appID", false, localone.token, localone.userDetails, denateconnection);
 
@@ -81,11 +81,19 @@ int main()
     std::this_thread::sleep_for(std::chrono::seconds(3));
     voicechat.sendAudioData({ 2,3,24,4 }, { "gwwgwggr", voicechat.allConnectedChannels[0].clientId});*/
 
-    HostDenateLocalMatchResult createdmatch;
+    //HostDenateLocalMatchResult createdmatch;
 
-    createdmatch = denatefriend.HostDenateLocalMatch("ssfv", "svs=sdds,wicd=wwcs", 44, "rqqqqqqqb");
+    //createdmatch = denatefriend.HostDenateLocalMatch("ssfv", "svs=sdds,wicd=wwcs", 44, "rqqqqqqqb");
 
-    std::cout << createdmatch.matchDetails.ipAddress << std::endl;
+    std::string filter = denatefriend.MakeDenateFilter({ {"svsvw", "eeeee"}, {"rrrrf", "iiiiii"}, { "mmmmm", "uuuu"}});
+
+    std::cout << filter << std::endl;
+
+    std::vector<DenateFilterResult> filterresult = denatefriend.BreakDenateFilter(filter);
+
+    std::cout << filterresult[0].value + ": " + filterresult[0].title << std::endl;
+
+    /*std::cout << createdmatch.matchDetails.ipAddress << std::endl;
 
     if (joined)
     {
@@ -107,7 +115,7 @@ int main()
         std::cout << " yoooo is False" << std::endl;
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(30));
+    std::this_thread::sleep_for(std::chrono::seconds(30));*/
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 

@@ -44,9 +44,8 @@ namespace DenateConnection
         size_t start = 0;
         size_t end = str.find(delimiter);
 
-        while (str.find(delimiter))
-        {
-            filters.push_back(str.substr(start, end));
+        while (end != std::string::npos) {
+            filters.push_back(str.substr(start, end - start));
             start = end + delimiter.length();
             end = str.find(delimiter, start);
         }
@@ -122,11 +121,6 @@ namespace DenateConnection
     { 
         std::cout << "Connected to namespace!" << std::endl; 
     } 
-    
-    void on_message_received(const std::string& name, const sio::message::ptr& data, bool isAck, sio::message::ptr& ack_resp) 
-    { 
-        std::cout << "Message received in namespace: " << name << std::endl; 
-    }
 
     //void on_close(sio::client::close_reason const& reason) 
     //{

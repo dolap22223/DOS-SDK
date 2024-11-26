@@ -97,9 +97,8 @@ namespace DenateLocalMatch
         size_t start = 0;
         size_t end = str.find(delimiter);
 
-        while (str.find(delimiter))
-        {
-            filters.push_back(str.substr(start, end));
+        while (end != std::string::npos) {
+            filters.push_back(str.substr(start, end - start));
             start = end + delimiter.length();
             end = str.find(delimiter, start);
         }
@@ -139,8 +138,10 @@ namespace DenateLocalMatch
         std::vector<DenateFilterResult> result;
         std::vector<std::string> brokendownfilters;
         brokendownfilters = parseIntoVector(Filter, ",");
+
         for (int i = 0; i < brokendownfilters.size(); i++)
         {
+
             std::vector<std::string> titleandvalue;
             titleandvalue = parseIntoVector(brokendownfilters[i], "=");
 

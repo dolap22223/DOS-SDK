@@ -10,9 +10,8 @@ namespace DenateVoiceChat
         size_t start = 0;
         size_t end = str.find(delimiter);
 
-        while (str.find(delimiter))
-        {
-            filters.push_back(str.substr(start, end));
+        while (end != std::string::npos) {
+            filters.push_back(str.substr(start, end - start));
             start = end + delimiter.length();
             end = str.find(delimiter, start);
         }

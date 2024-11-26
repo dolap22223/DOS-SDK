@@ -5,14 +5,13 @@ namespace DenateOnlineSave
 {
 
     std::vector<std::string> parseIntoVector(const std::string& str, const std::string& delimiter) {
-        std::vector<std::string> filters; 
-        size_t start = 0; 
+        std::vector<std::string> filters;
+        size_t start = 0;
         size_t end = str.find(delimiter);
 
-        while (str.find(delimiter))
-        {
-            filters.push_back(str.substr(start, end));
-            start = end + delimiter.length(); 
+        while (end != std::string::npos) {
+            filters.push_back(str.substr(start, end - start));
+            start = end + delimiter.length();
             end = str.find(delimiter, start);
         }
         filters.push_back(str.substr(start));
