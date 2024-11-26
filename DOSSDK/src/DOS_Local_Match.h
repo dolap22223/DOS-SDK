@@ -208,7 +208,7 @@ namespace DenateLocalMatch
         void OnPlayerLeftPrivateMatch(playerLeftPrivateMatchListener const& playerLeftPrivateMatch);
 
         /** Called when a player joins a match you are currently a part of */
-        void OnPlayerJoinedMatchListener(playerJoinedMatchListener const& playerJoinedMatch);
+        void OnPlayerJoinedMatch(playerJoinedMatchListener const& playerJoinedMatch);
 
         /** Called when a player leaves a match you are currently a part of */
         void OnPlayerLeftMatch(playerLeftMatchListener const& playerLeftMatch);
@@ -232,10 +232,10 @@ namespace DenateLocalMatch
         DOS_Local_Match(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails, DenateConnection::DOS_Connection& denateConnection);
 
         /** True if the current instance is part of a private match*/
-        bool isPrivateMatch = false;
+        bool isPrivateMatch;
 
-        /** Tue if the current instance hosted the match*/
-        bool isServer = false;
+        /** True if the current instance hosted the match*/
+        bool isServer;
 
         /** Details of the match the intance is a part of */
         DenateMatchDetails currentMatchDetail;

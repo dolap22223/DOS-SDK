@@ -31,7 +31,7 @@ int main()
     LoginAppUserResult localone;
     localone = appuser.LoginDenateAppUserById("dpp");
 
-    DenateLocalMatch::DOS_Local_Match denatefriend("userID", "appID", false, localone.token, localone.userDetails);
+    
 
     //DenateFilterResult value1 = { "ebe", "value1" }; DenateFilterResult value2 = { "dgbd", "value2" }; DenateFilterResult value3 = { "dbdb","fsfb" };
     //std::vector<DenateFilterResult> myvector = { value1, value2, value3 };
@@ -66,7 +66,9 @@ int main()
 
     denateconnection.EstablishDenateConnection(false);
 
-    DenateVoiceChat::DOS_Voice_Chat voicechat("userID", "appID", false, localone.token, localone.userDetails, denateconnection);
+    DenateLocalMatch::DOS_Local_Match denatefriend("userID", "appID", false, localone.token, localone.userDetails, denateconnection);
+
+    /*DenateVoiceChat::DOS_Voice_Chat voicechat("userID", "appID", false, localone.token, localone.userDetails, denateconnection);
     voicechat.Activate();
     std::string sesid = denateconnection.sioClient.get_sessionid();
 
@@ -77,7 +79,13 @@ int main()
     joinvcresult = voicechat.JoinVoiceChannel(createvcresult.channelID);
 
     std::this_thread::sleep_for(std::chrono::seconds(3));
-    voicechat.sendAudioData({ 2,3,24,4 }, { "gwwgwggr", voicechat.allConnectedChannels[0].clientId});
+    voicechat.sendAudioData({ 2,3,24,4 }, { "gwwgwggr", voicechat.allConnectedChannels[0].clientId});*/
+
+    HostDenateLocalMatchResult createdmatch;
+
+    createdmatch = denatefriend.HostDenateLocalMatch("ssfv", "svs=sdds,wicd=wwcs", 44, "rqqqqqqqb");
+
+    std::cout << createdmatch.matchDetails.ipAddress << std::endl;
 
     if (joined)
     {
@@ -85,6 +93,18 @@ int main()
     }
     else {
         std::cout << "False" << std::endl;
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+
+    bool yooo = denatefriend.EndDenateMatch();
+
+    if (yooo)
+    {
+        std::cout << " yooooo is True" << std::endl;
+    }
+    else {
+        std::cout << " yoooo is False" << std::endl;
     }
 
     std::this_thread::sleep_for(std::chrono::seconds(30));

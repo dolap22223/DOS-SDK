@@ -180,7 +180,7 @@ namespace DenateLocalMatch
         }
     }
 
-    void DOS_Local_Match::OnPlayerJoinedMatchListener(playerJoinedMatchListener const& playerJoinedMatch)
+    void DOS_Local_Match::OnPlayerJoinedMatch(playerJoinedMatchListener const& playerJoinedMatch)
     {
         if (playerJoinedMatch)
         {
@@ -2948,7 +2948,7 @@ namespace DenateLocalMatch
 
     bool DOS_Local_Match::EndDenateMatch()
     {
-        return DeactivateDenateMatchConnection(this->isServer, this->isPrivateMatch);
+        return DeactivateDenateMatchConnection(isServer, isPrivateMatch);
     }
 
     void DOS_Local_Match::ActivateDenateMatchConnection(bool isServer, bool isPrivateMatch)
@@ -2997,7 +2997,7 @@ namespace DenateLocalMatch
 
                 namespaceSocket->on("leftroom", [&](sio::event& ev) {
 
-                    std::cout << "A player just joined your match" << std::endl;
+                    std::cout << "A player just left your match" << std::endl;
 
                     std::string username;
                     std::string servername;
@@ -3071,7 +3071,7 @@ namespace DenateLocalMatch
 
                 namespaceSocket->on("leftroom", [&](sio::event& ev) {
 
-                    std::cout << "A player just joined your match" << std::endl;
+                    std::cout << "A player just left your match" << std::endl;
 
                     std::string username;
                     std::string servername;
@@ -3190,7 +3190,7 @@ namespace DenateLocalMatch
                     
                     namespaceSocket->emit("joinroom", jsonMessage, [&](sio::message::list const& ack_msg) {
 
-                        this->isServer = isServer;
+                        //this->isServer = isServer;
 
                         isInMatch = true;
 
@@ -3212,6 +3212,7 @@ namespace DenateLocalMatch
             {
                 if (internalDenateConnection.isDenateOnlineServiceConnected)
                 {
+
                     sio::message::ptr jsonMessage = sio::object_message::create();
 
                     jsonMessage->get_map()["username"] = sio::string_message::create(userDetails.username);
