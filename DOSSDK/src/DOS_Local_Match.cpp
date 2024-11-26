@@ -171,6 +171,80 @@ namespace DenateLocalMatch
         return result;
     }
 
+
+    void DOS_Local_Match::OnPlayerJoinedPrivateMatch(playerJoinedPrivateMatchListener const& playerJoinedPrivateMatch)
+    {
+        if (playerJoinedPrivateMatch)
+        {
+            internalPlayerJoinedPrivateMatch = playerJoinedPrivateMatch;
+        }
+    }
+
+    void DOS_Local_Match::OnPlayerJoinedMatchListener(playerJoinedMatchListener const& playerJoinedMatch)
+    {
+        if (playerJoinedMatch)
+        {
+            internalPlayerJoinedMatch = playerJoinedMatch;
+        }
+    }
+
+    void DOS_Local_Match::OnPlayerLeftMatch(playerLeftMatchListener const& playerLeftMatch)
+    {
+        if (playerLeftMatch)
+        {
+            internalPlayerLeftMatch = playerLeftMatch;
+        }
+    }
+
+    void DOS_Local_Match::OnMessageBroadcastedToMatch(messageBroadcastedToMatchListener const& messageBroadcastedToMatch)
+    {
+        if (messageBroadcastedToMatch)
+        {
+            internalMessageBroadcastedToMatch = messageBroadcastedToMatch;
+        }
+    }
+
+    void DOS_Local_Match::OnPlayerJoinTeam(playerJoinTeamListener const& playerJoinTeam)
+    {
+        if (playerJoinTeam)
+        {
+            internalPlayerJoinTeam = playerJoinTeam;
+        }
+    }
+
+    void DOS_Local_Match::OnPlayerLeaveTeam(playerLeaveTeamListener const& playerLeaveTeam)
+    {
+        if (playerLeaveTeam)
+        {
+            internalPlayerLeaveTeam = playerLeaveTeam;
+        }
+    }
+
+    void DOS_Local_Match::OnPlayerDestroyTeam(playerDestroyTeamListener const& playerDestroyTeam)
+    {
+        if (playerDestroyTeam)
+        {
+            internalPlayerDestroyTeam = playerDestroyTeam;
+        }
+    }
+
+    void DOS_Local_Match::OnMessageBroadcastedToTeam(messageBroadcastedToTeamListener const& messageBroadcastedToTeam)
+    {
+        if (messageBroadcastedToTeam)
+        {
+            internalMessageBroadcastedToTeam = messageBroadcastedToTeam;
+        }
+    }
+
+    void DOS_Local_Match::OnPlayerLeftPrivateMatch(playerLeftPrivateMatchListener const& playerLeftPrivateMatch)
+    {
+        if (playerLeftPrivateMatch)
+        {
+            internalPlayerLeftPrivateMatch = playerLeftPrivateMatch;
+        }
+    }
+
+
     HostDenateLocalMatchResult DOS_Local_Match::HostDenateLocalMatch(std::string mapName, std::string filters, int maxPlayers, std::string serverName, std::string playerName)
     {
 
@@ -2161,6 +2235,9 @@ namespace DenateLocalMatch
                 }
 
                 currentTeamDetail = teamDetails;
+
+                ActivateDenateTeamConnection();
+
             }
         }
 
@@ -2274,7 +2351,7 @@ namespace DenateLocalMatch
                         jsonMessage->get_map()["player_name"] = sio::string_message::create(userDetails.username);
                         jsonMessage->get_map()["appID"] = sio::string_message::create(appID);
                         jsonMessage->get_map()["userID"] = sio::string_message::create(userID);
-                        jsonMessage->get_map()["teamID"] = sio::string_message::create(currentTeam.teamId);
+                        jsonMessage->get_map()["teamID"] = sio::string_message::create(currentTeamDetail.teamId);
 
                         std::string currentPlayerClientId;
 
@@ -2389,7 +2466,7 @@ namespace DenateLocalMatch
                         jsonMessage->get_map()["player_name"] = sio::string_message::create(userDetails.username);
                         jsonMessage->get_map()["appID"] = sio::string_message::create(appID);
                         jsonMessage->get_map()["userID"] = sio::string_message::create(userID);
-                        jsonMessage->get_map()["teamID"] = sio::string_message::create(currentTeam.teamId);
+                        jsonMessage->get_map()["teamID"] = sio::string_message::create(currentTeamDetail.teamId);
                         jsonMessage->get_map()["client_id"] = sio::string_message::create("");
 
                         namespaceTeamSocket->emit("destroyteam", jsonMessage, [&](sio::message::list const& ack_msg) {
@@ -2850,7 +2927,7 @@ namespace DenateLocalMatch
                     jsonMessage->get_map()["player_name"] = sio::string_message::create(std::string(userDetails.username));
                     jsonMessage->get_map()["appID"] = sio::string_message::create(std::string(appID));
 
-                    namespaceSocket->emit("inviteplayer", jsonMessage, [&](sio::message::list const& ack_msg) {
+                    internalDenateConnection.namespaceSocket->emit("inviteplayer", jsonMessage, [&](sio::message::list const& ack_msg) {
 
                         std::cout << "Invite Sent" << std::endl;
 
@@ -3197,7 +3274,7 @@ namespace DenateLocalMatch
     bool DOS_Local_Match::BroadcastMessageToTeam(std::string message)
     {
 
-        if (currentTeam.teamId == "" && currentTeam.serverName == "") {
+        if (currentTeamDetail.teamId == "" && currentTeamDetail.serverName == "") {
             std::cout << "A team has to be joined first before you can send a message" << std::endl;
             return false;
         }
@@ -3249,6 +3326,193 @@ namespace DenateLocalMatch
             }
         }
         return false;
+    }
+
+    void DOS_Local_Match::ActivateDenateTeamConnection()
+    {
+        namespaceTeamSocket = internalDenateConnection.sioClient.socket("/teamgateway");
+        if (namespaceTeamSocket)
+        {
+            namespaceTeamSocket->on("joinedteam", [&](sio::event& ev) {
+
+                std::cout << "A player just joined a team you are a part of" << std::endl;
+
+                DenateTeamPlayersDetails teamplayerdetails;
+                std::string username;
+                std::string clientId;
+
+                auto data = ev.get_message();
+
+                if (data->get_flag() == sio::message::flag_object)
+                {
+                    auto jsonObj = data->get_map();
+
+                    if (jsonObj.find("player_name") != jsonObj.end())
+                    {
+                        username = jsonObj["player_name"]->get_string();
+                    }
+                    if (jsonObj.find("client_id") != jsonObj.end())
+                    {
+                        clientId = jsonObj["client_id"]->get_string();
+                    }
+                }
+
+                teamplayerdetails.clientId = clientId;
+                teamplayerdetails.playerName = username;
+                
+                currentTeamPlayers.push_back(teamplayerdetails);
+
+                if (internalPlayerJoinTeam)
+                {
+                    internalPlayerJoinTeam(teamplayerdetails);
+                }
+
+                });
+
+            namespaceTeamSocket->on("leftteam", [&](sio::event& ev) {
+
+                std::cout << "A player just left the team you are a part of" << std::endl;
+
+                DenateTeamPlayersDetails teamplayerdetails;
+                std::string username;
+                std::string clientId;
+
+                auto data = ev.get_message();
+
+                if (data->get_flag() == sio::message::flag_object)
+                {
+                    auto jsonObj = data->get_map();
+
+                    if (jsonObj.find("player_name") != jsonObj.end())
+                    {
+                        username = jsonObj["player_name"]->get_string();
+                    }
+                    if (jsonObj.find("client_id") != jsonObj.end())
+                    {
+                        clientId = jsonObj["client_id"]->get_string();
+                    }
+                }
+
+                teamplayerdetails.clientId = clientId;
+                teamplayerdetails.playerName = username;
+
+                std::vector<int> indexestodelete;
+                for (int i = 0; i < currentTeamPlayers.size(); i++)
+                {
+                    if (currentTeamPlayers[i].playerName == teamplayerdetails.playerName) {
+                        indexestodelete.push_back(i);
+                    }
+                }
+
+                std::sort(indexestodelete.rbegin(), indexestodelete.rend());
+                for (int index : indexestodelete)
+                {
+                    if (index >= 0 && index < currentTeamPlayers.size())
+                    {
+                        currentTeamPlayers.erase(currentTeamPlayers.begin() + index);
+                    }
+                }
+                
+
+                if (internalPlayerLeaveTeam)
+                {
+                    internalPlayerLeaveTeam(teamplayerdetails);
+                }
+
+                });
+
+            namespaceTeamSocket->on("destroyedteam", [&](sio::event& ev) {
+
+                std::string teamID;
+
+                auto data = ev.get_message();
+
+                if (data->get_flag() == sio::message::flag_object)
+                {
+                    auto jsonObj = data->get_map();
+                    if (jsonObj.find("teamID") != jsonObj.end())
+                    {
+                        teamID = jsonObj["teamID"]->get_string();
+                    }
+
+                }
+
+                if (currentTeamDetail.teamId == teamID)
+                {
+                    currentTeamDetail.filters = "";
+                    currentTeamDetail.isPrivateMatch = false;
+                    currentTeamDetail.matchId = 0;
+                    currentTeamDetail.maxPlayers = 0;
+                    currentTeamDetail.serverName = "";
+                    currentTeamDetail.teamId = "";
+
+                    currentTeamPlayers.empty();
+
+                    if (internalPlayerDestroyTeam)
+                    {
+                        internalPlayerDestroyTeam(teamID);
+                    }
+
+                }
+
+                });
+
+
+            namespaceTeamSocket->on("messagebroadcastedtoteam", [&](sio::event& ev) {
+
+                std::string username;
+                std::string message;
+
+                auto data = ev.get_message();
+
+                if (data->get_flag() == sio::message::flag_object)
+                {
+                    auto jsonObj = data->get_map();
+                    if (jsonObj.find("message") != jsonObj.end())
+                    {
+                        message = jsonObj["message"]->get_string();
+                    }
+                    if (jsonObj.find("username") != jsonObj.end())
+                    {
+                        username = jsonObj["username"]->get_string();
+                    }
+                }
+
+                if (internalMessageBroadcastedToTeam)
+                {
+                    internalMessageBroadcastedToTeam(username, message);
+                }
+
+                });
+
+            if (&internalDenateConnection != nullptr)
+            {
+                if (internalDenateConnection.isDenateOnlineServiceConnected)
+                {
+                    sio::message::ptr jsonMessage = sio::object_message::create();
+
+                    jsonMessage->get_map()["player_name"] = sio::string_message::create(userDetails.username);
+                    jsonMessage->get_map()["teamID"] = sio::string_message::create(std::string(currentTeamDetail.teamId));
+                    jsonMessage->get_map()["userID"] = sio::string_message::create(std::string(userID));
+                    jsonMessage->get_map()["client_id"] = sio::string_message::create(std::string(""));
+                    jsonMessage->get_map()["appID"] = sio::string_message::create(std::string(appID));
+
+                    if (isPrivateMatch)
+                    {
+                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentPrivateMatchDetail.matchId);
+                    }
+                    else {
+                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentMatchDetail.matchId);
+                    }
+
+                    namespaceTeamSocket->emit("jointeam", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                        });
+
+                }
+            }
+
+        }
     }
 
 }

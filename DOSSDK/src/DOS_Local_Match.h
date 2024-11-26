@@ -130,6 +130,26 @@ namespace DenateLocalMatch
 	class DOS_Local_Match
 	{
 
+    protected:
+
+        typedef std::function<void(std::string playerName, std::string serverName, bool isServer)> playerJoinedPrivateMatchListener;
+
+        typedef std::function<void(std::string playerName, std::string serverName, bool isServer)> playerLeftPrivateMatchListener;
+
+        typedef std::function<void(std::string playerName, std::string serverName, bool isServer)> playerJoinedMatchListener;
+
+        typedef std::function<void(std::string playerName, std::string serverName, bool isServer)> playerLeftMatchListener;
+
+        typedef std::function<void(std::string playerName, std::string message)> messageBroadcastedToMatchListener;
+
+        typedef std::function<void(DenateTeamPlayersDetails teamPlayers)> playerJoinTeamListener;
+
+        typedef std::function<void(DenateTeamPlayersDetails teamPlayers)> playerLeaveTeamListener;
+
+        typedef std::function<void(std::string teamID)> playerDestroyTeamListener;
+
+        typedef std::function<void(std::string playerName, std::string message)> messageBroadcastedToTeamListener;
+
     private:
         /** userID credential */
         std::string userID;
@@ -152,7 +172,61 @@ namespace DenateLocalMatch
         /** Replaces a substring with another*/
         void replaceSubstring(std::string& original, const std::string& toReplace, const std::string& replacement);
 
+        /** Internal use only*/
+        playerJoinedPrivateMatchListener internalPlayerJoinedPrivateMatch;
+
+        /** Internal use only*/
+        playerLeftPrivateMatchListener internalPlayerLeftPrivateMatch;
+
+        /** Internal use only*/
+        playerJoinedMatchListener internalPlayerJoinedMatch;
+
+        /** Internal use only*/
+        playerLeftMatchListener internalPlayerLeftMatch;
+
+        /** Internal use only*/
+        messageBroadcastedToMatchListener internalMessageBroadcastedToMatch;
+
+        /** Internal use only*/
+        playerJoinTeamListener internalPlayerJoinTeam;
+
+        /** Internal use only*/
+        playerLeaveTeamListener internalPlayerLeaveTeam;
+
+        /** Internal use only*/
+        playerDestroyTeamListener internalPlayerDestroyTeam;
+
+        /** Internal use only*/
+        messageBroadcastedToTeamListener internalMessageBroadcastedToTeam;
+
     public:
+
+        /** Called when a player joins the private match you are a part of, provided you are a part of a private match */
+        void OnPlayerJoinedPrivateMatch(playerJoinedPrivateMatchListener const& playerJoinedPrivateMatch);
+
+        /** Called when a player leaves the private match you are a part of, provided you are a part of a private match */
+        void OnPlayerLeftPrivateMatch(playerLeftPrivateMatchListener const& playerLeftPrivateMatch);
+
+        /** Called when a player joins a match you are currently a part of */
+        void OnPlayerJoinedMatchListener(playerJoinedMatchListener const& playerJoinedMatch);
+
+        /** Called when a player leaves a match you are currently a part of */
+        void OnPlayerLeftMatch(playerLeftMatchListener const& playerLeftMatch);
+
+        /** Called when a message is broadcasted to the match you are a part of */
+        void OnMessageBroadcastedToMatch(messageBroadcastedToMatchListener const& messageBroadcastedToMatch);
+
+        /** Called when a player joins a team you are a part of */
+        void OnPlayerJoinTeam(playerJoinTeamListener const& playerJoinTeam);
+
+        /** Called when a player leaves the team you are a part of */
+        void OnPlayerLeaveTeam(playerLeaveTeamListener const& playerLeaveTeam);
+
+        /** Called when the team you are a part of is destroyed */
+        void OnPlayerDestroyTeam(playerDestroyTeamListener const& playerDestroyTeam);
+
+        /** Called when a message is broadcasted to your team */
+        void OnMessageBroadcastedToTeam(messageBroadcastedToTeamListener const& messageBroadcastedToTeam);
 
         /** Constructor */
         DOS_Local_Match(std::string userID, std::string appID, bool dedicatedServer, std::string token, DenateUserDetails userDetails, DenateConnection::DOS_Connection& denateConnection);
@@ -181,9 +255,6 @@ namespace DenateLocalMatch
         /** Details of the room (Match) a player is a part of */
         DenateRoomDetails roomDetails;
 
-        /** Details of the current team a user is a part of provided they are on a match */
-        DenateTeamDetails currentTeam;
-
         /** Contains all the team details of every player in your team */
         std::vector<DenateTeamPlayersDetails> currentTeamPlayers;
 
@@ -195,6 +266,9 @@ namespace DenateLocalMatch
 
         /** Deactivates the denate voice chat */
         bool DeactivateDenateMatchConnection(bool isServer, bool isPrivateMatch);
+
+        /** Activates the denate team functionality */
+        void ActivateDenateTeamConnection();
 
         /** Breaksdown a filter into its title and value
         * @param filter filters you would like to break
