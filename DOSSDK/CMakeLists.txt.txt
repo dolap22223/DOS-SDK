@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.10)
+project(MyProject)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+find_library(SIOCLIENT_LIB NAMES sioclient.lib)
+find_library(LIBCURL_LIB NAMES libcurl-d.lib)
+
+include_directories(${SIOCLIENT_LIB_INCLUDE_DIRS} ${LIBCURL_LIB_INCLUDE_DIRS})
+
+add_executable(MyExecutable main.cpp) # replace 'main.cpp' with your source files
+
+target_link_libraries(MyExecutable ${SIOCLIENT_LIB} ${LIBCURL_LIB})

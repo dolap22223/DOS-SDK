@@ -59,7 +59,9 @@ int main()
     std::cout << leftteam.httpResponse.message << std::endl;*/
 
     DenateConnection::DOS_Connection denateconnection("userID", "appID", false, localone.token, localone.userDetails);
+    denateconnection.EstablishDenateConnection(false);
 
+    std::this_thread::sleep_for(std::chrono::seconds(3));
     //bool joined = false;
 
     //denateconnection.OnDenateOnlineServiceConnected([&]() { std::cout << "sfmfsbkmmmmmmmmmmmmmkfssfbsfbsfbsb" << std::endl; });
@@ -67,6 +69,8 @@ int main()
     //denateconnection.EstablishDenateConnection(false);
 
     DenateLocalMatch::DOS_Local_Match denatefriend("userID", "appID", false, localone.token, localone.userDetails, denateconnection);
+
+
 
     /*DenateVoiceChat::DOS_Voice_Chat voicechat("userID", "appID", false, localone.token, localone.userDetails, denateconnection);
     voicechat.Activate();
@@ -81,27 +85,29 @@ int main()
     std::this_thread::sleep_for(std::chrono::seconds(3));
     voicechat.sendAudioData({ 2,3,24,4 }, { "gwwgwggr", voicechat.allConnectedChannels[0].clientId});*/
 
-    //HostDenateLocalMatchResult createdmatch;
+    HostDenateLocalMatchResult createdmatch;
 
-    //createdmatch = denatefriend.HostDenateLocalMatch("ssfv", "svs=sdds,wicd=wwcs", 44, "rqqqqqqqb");
+    createdmatch = denatefriend.HostDenateLocalMatch("srrrrrrrrrsfv", "svs=sdds,wicd=wwcs", 44, "rqqqqqqqb");
 
-    std::string filter = denatefriend.MakeDenateFilter({ {"svsvw", "eeeee"}, {"rrrrf", "iiiiii"}, { "mmmmm", "uuuu"}});
+    std::this_thread::sleep_for(std::chrono::seconds(3));
 
-    std::cout << filter << std::endl;
+    //std::string filter = denatefriend.MakeDenateFilter({ {"svsvw", "eeeee"}, {"rrrrf", "iiiiii"}, { "mmmmm", "uuuu"}});
 
-    std::vector<DenateFilterResult> filterresult = denatefriend.BreakDenateFilter(filter);
+    //std::cout << filter << std::endl;
 
-    std::cout << filterresult[0].value + ": " + filterresult[0].title << std::endl;
+    //std::vector<DenateFilterResult> filterresult = denatefriend.BreakDenateFilter(filter);
 
-    /*std::cout << createdmatch.matchDetails.ipAddress << std::endl;
+    //std::cout << filterresult[0].value + ": " + filterresult[0].title << std::endl;
 
-    if (joined)
-    {
-        std::cout << "True" << std::endl;
-    }
-    else {
-        std::cout << "False" << std::endl;
-    }
+    std::cout << createdmatch.matchDetails.ipAddress << std::endl;
+
+    //if (joined)
+    //{
+    //    std::cout << "True" << std::endl;
+    //}
+    //else {
+    //    std::cout << "False" << std::endl;
+    //}
 
     std::this_thread::sleep_for(std::chrono::seconds(10));
 
@@ -115,7 +121,7 @@ int main()
         std::cout << " yoooo is False" << std::endl;
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(30));*/
+    std::this_thread::sleep_for(std::chrono::seconds(30));
 
     //std::cout << DenateAchievement::DOS_Achievement::Subtract(5.2, 3.3) << std::endl;
 

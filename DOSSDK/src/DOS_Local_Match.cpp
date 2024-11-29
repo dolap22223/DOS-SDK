@@ -344,7 +344,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
                 
                 currentMatchDetail = matchDetails;
@@ -463,7 +463,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
 
@@ -579,7 +579,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
                 currentMatchDetail = matchDetails;
@@ -694,7 +694,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
                 currentMatchDetail = matchDetails;
@@ -809,7 +809,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
                 currentMatchDetail = matchDetails;
@@ -923,7 +923,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
                 currentMatchDetail = matchDetails;
@@ -1039,7 +1039,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
                 currentPrivateMatchDetail = matchDetails;
@@ -1144,7 +1144,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
             }
@@ -1247,7 +1247,7 @@ namespace DenateLocalMatch
                     }
                     if (matchdetail.contains("max_players") && !matchdetail["max_players"].is_null())
                     {
-                        match.matchId = matchdetail["max_players"];
+                        match.maxPlayers = matchdetail["max_players"];
                     }
                     matchDetails.push_back(match);
                 }
@@ -1349,7 +1349,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
             }
@@ -1449,7 +1449,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
             }
@@ -1549,7 +1549,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
             }
@@ -1649,7 +1649,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
             }
@@ -1754,7 +1754,7 @@ namespace DenateLocalMatch
                     }
                     if (matchdetail.contains("max_players") && !matchdetail["max_players"].is_null())
                     {
-                        match.matchId = matchdetail["max_players"];
+                        match.maxPlayers = matchdetail["max_players"];
                     }
                     matchDetails.push_back(match);
                 }
@@ -1870,7 +1870,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
             }
@@ -1987,7 +1987,7 @@ namespace DenateLocalMatch
                 }
                 if (jsonResponse["response"].contains("max_players") && !jsonResponse["response"]["max_players"].is_null())
                 {
-                    matchDetails.matchId = jsonResponse["response"]["max_players"];
+                    matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
 
             }
@@ -2368,6 +2368,8 @@ namespace DenateLocalMatch
 
                         namespaceTeamSocket->emit("leaveteam", jsonMessage, [&](sio::message::list const& ack_msg) {
 
+                            namespaceTeamSocket->close();
+
                             });
 
                     }
@@ -2471,6 +2473,11 @@ namespace DenateLocalMatch
                         jsonMessage->get_map()["client_id"] = sio::string_message::create("");
 
                         namespaceTeamSocket->emit("destroyteam", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                            if (teamID == currentTeamDetail.teamId)
+                            {
+                                namespaceTeamSocket->close();
+                            }
 
                             });
 
@@ -3214,57 +3221,63 @@ namespace DenateLocalMatch
                 if (internalDenateConnection.isDenateOnlineServiceConnected)
                 {
 
-                    sio::message::ptr jsonMessage = sio::object_message::create();
-
-                    jsonMessage->get_map()["username"] = sio::string_message::create(userDetails.username);
-                    jsonMessage->get_map()["email"] = sio::string_message::create(std::string(userDetails.emailOrId));
-                    jsonMessage->get_map()["room"] = sio::string_message::create(std::string(""));
-                    jsonMessage->get_map()["client_id"] = sio::string_message::create(std::string(""));
-                    jsonMessage->get_map()["is_server"] = sio::int_message::create(isServer ? 1 : 0);
-                    jsonMessage->get_map()["is_private_match"] = sio::int_message::create(isPrivateMatch ? 1 : 0);
-                    jsonMessage->get_map()["appID"] = sio::string_message::create(std::string(appID));
-
-                    if (isPrivateMatch)
+                    if (namespaceSocket)
                     {
-                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentPrivateMatchDetail.matchId);
-                        jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentPrivateMatchDetail.serverName));
+                        sio::message::ptr jsonMessage = sio::object_message::create();
+
+                        jsonMessage->get_map()["username"] = sio::string_message::create(userDetails.username);
+                        jsonMessage->get_map()["email"] = sio::string_message::create(std::string(userDetails.emailOrId));
+                        jsonMessage->get_map()["room"] = sio::string_message::create(std::string(""));
+                        jsonMessage->get_map()["client_id"] = sio::string_message::create(std::string(""));
+                        jsonMessage->get_map()["is_server"] = sio::int_message::create(isServer ? 1 : 0);
+                        jsonMessage->get_map()["is_private_match"] = sio::int_message::create(isPrivateMatch ? 1 : 0);
+                        jsonMessage->get_map()["appID"] = sio::string_message::create(std::string(appID));
+
+                        if (isPrivateMatch)
+                        {
+                            jsonMessage->get_map()["match_id"] = sio::int_message::create(currentPrivateMatchDetail.matchId);
+                            jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentPrivateMatchDetail.serverName));
+                        }
+                        else {
+                            jsonMessage->get_map()["match_id"] = sio::int_message::create(currentMatchDetail.matchId);
+                            jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentMatchDetail.serverName));
+                        }
+                        
+                        namespaceSocket->emit("leaveroom", jsonMessage, [&](sio::message::list const& ack_msg) {
+
+                            namespaceSocket->close();
+
+                            });
+
                     }
-                    else {
-                        jsonMessage->get_map()["match_id"] = sio::int_message::create(currentMatchDetail.matchId);
-                        jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentMatchDetail.serverName));
-                    }
-
-                    namespaceSocket->emit("leaveroom", jsonMessage, [&](sio::message::list const& ack_msg) {
-
-                        });
-
                 }
-            }
 
-            isInMatch = false;
+                isInMatch = false;
 
-            if (isPrivateMatch)
-            {
-                currentPrivateMatchDetail.filters = "";
-                currentPrivateMatchDetail.ipAddress = "";
-                currentPrivateMatchDetail.mapName = "";
-                currentPrivateMatchDetail.maxPlayers = 0;
-                currentPrivateMatchDetail.playerName = "";
-                currentPrivateMatchDetail.serverName = "";
-                currentPrivateMatchDetail.matchId = 0;
-            }
-            else {
-                currentMatchDetail.filters = "";
-                currentMatchDetail.ipAddress = "";
-                currentMatchDetail.mapName = "";
-                currentMatchDetail.maxPlayers = 0;
-                currentMatchDetail.playerName = "";
-                currentMatchDetail.serverName = "";
-                currentMatchDetail.matchId = 0;
-            }
+                if (isPrivateMatch)
+                {
+                    currentPrivateMatchDetail.filters = "";
+                    currentPrivateMatchDetail.ipAddress = "";
+                    currentPrivateMatchDetail.mapName = "";
+                    currentPrivateMatchDetail.maxPlayers = 0;
+                    currentPrivateMatchDetail.playerName = "";
+                    currentPrivateMatchDetail.serverName = "";
+                    currentPrivateMatchDetail.matchId = 0;
+                }
+                else {
+                    currentMatchDetail.filters = "";
+                    currentMatchDetail.ipAddress = "";
+                    currentMatchDetail.mapName = "";
+                    currentMatchDetail.maxPlayers = 0;
+                    currentMatchDetail.playerName = "";
+                    currentMatchDetail.serverName = "";
+                    currentMatchDetail.matchId = 0;
+                }
 
-            namespaceSocket->close();
-            return true;
+                return true;
+
+            }
+        
         }
         else {
             std::cout << "You must be a part of a match to end it" << std::endl;
