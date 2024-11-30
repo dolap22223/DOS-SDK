@@ -279,9 +279,9 @@ namespace DenateLocalMatch
             {
                 serverName = getHostName();
             }
-            
+
             std::vector<std::string> ipAddresses = getIPAddresses();
-            
+
             std::string json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("player_name": ")" + playerName + "\"" + "," + R"("server_name": ")" + serverName + "\"" + "," + R"("IP_address": ")" + ipAddresses[1] + "\"" + "," + R"("map_name": ")" + mapName + "\"" + "," + R"("max_players": )" + std::to_string(maxPlayers) + "," + R"("filter": ")" + filters + R"("})";
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
             std::cout << json << std::endl;
@@ -327,12 +327,12 @@ namespace DenateLocalMatch
 
         if (jsonResponse.contains("response"))
         {
-            
+
             matchCreated = true;
 
             if (!jsonResponse["response"].is_null())
             {
-                
+
                 matchDetails.filters = !jsonResponse["response"]["filter"].is_null() ? jsonResponse["response"]["filter"] : "";
                 matchDetails.ipAddress = !jsonResponse["response"]["IP_address"].is_null() ? jsonResponse["response"]["IP_address"] : "";
                 matchDetails.mapName = !jsonResponse["response"]["map_name"].is_null() ? jsonResponse["response"]["map_name"] : "";
@@ -346,7 +346,7 @@ namespace DenateLocalMatch
                 {
                     matchDetails.maxPlayers = jsonResponse["response"]["max_players"];
                 }
-                
+
                 currentMatchDetail = matchDetails;
                 isPrivateMatch = false;
                 isServer = true;
@@ -567,7 +567,7 @@ namespace DenateLocalMatch
 
             if (!jsonResponse["response"].is_null())
             {
-                
+
                 matchDetails.filters = !jsonResponse["response"]["filter"].is_null() ? jsonResponse["response"]["filter"] : "";
                 matchDetails.ipAddress = !jsonResponse["response"]["IP_address"].is_null() ? jsonResponse["response"]["IP_address"] : "";
                 matchDetails.mapName = !jsonResponse["response"]["map_name"].is_null() ? jsonResponse["response"]["map_name"] : "";
@@ -1064,7 +1064,7 @@ namespace DenateLocalMatch
 
     FindDenateLocalMatchResult DOS_Local_Match::FindDenateLocalMatch()
     {
-        
+
         CURL* curl;
         CURLcode res;
         FindDenateLocalMatchResult result;
@@ -1231,8 +1231,8 @@ namespace DenateLocalMatch
 
             if (!jsonResponse["response"].is_null())
             {
-                
-                for (auto& matchdetail : jsonResponse["response"] )
+
+                for (auto& matchdetail : jsonResponse["response"])
                 {
                     DenateMatchDetails match;
 
@@ -1811,7 +1811,7 @@ namespace DenateLocalMatch
 
             std::string json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("player_name": ")" + playerName + "\"" + "," + R"("server_name": ")" + serverName + "\"" + "," + R"("IP_address": ")" + ipAddresses[1] + "\"" + "," + R"("map_name": ")" + mapName + "\"" + "," + R"("max_players": )" + std::to_string(maxPlayers) + "," + R"("filter": ")" + filters + R"("})";
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-            
+
             curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
 
             struct curl_slist* headers = NULL;
@@ -2005,7 +2005,7 @@ namespace DenateLocalMatch
 
     }
 
-    CreateTeamResult DOS_Local_Match::CreateTeam(std:: string filters)
+    CreateTeamResult DOS_Local_Match::CreateTeam(std::string filters)
     {
         CURL* curl;
         CURLcode res;
@@ -2217,7 +2217,7 @@ namespace DenateLocalMatch
             {
                 teamDetails.filters = !jsonResponse["response"]["filter"].is_null() ? jsonResponse["response"]["filter"] : "";
                 teamDetails.serverName = !jsonResponse["response"]["server_name"].is_null() ? jsonResponse["response"]["server_name"] : "";
-                
+
                 if (jsonResponse["response"].contains("teamID") && !jsonResponse["response"]["teamID"].is_null())
                 {
                     teamDetails.teamId = jsonResponse["response"]["teamID"];
@@ -2762,7 +2762,7 @@ namespace DenateLocalMatch
 
             if (!jsonResponse["response"].is_null())
             {
-                
+
                 teamDetails.filters = !jsonResponse["response"]["filter"].is_null() ? jsonResponse["response"]["filter"] : "";
                 teamDetails.TeamID = !jsonResponse["response"]["teamID"].is_null() ? jsonResponse["response"]["teamID"] : "";
 
@@ -3195,7 +3195,7 @@ namespace DenateLocalMatch
                         jsonMessage->get_map()["match_id"] = sio::int_message::create(currentMatchDetail.matchId);
                         jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentMatchDetail.serverName));
                     }
-                    
+
                     namespaceSocket->emit("joinroom", jsonMessage, [&](sio::message::list const& ack_msg) {
 
                         //this->isServer = isServer;
@@ -3212,7 +3212,7 @@ namespace DenateLocalMatch
 
     bool DOS_Local_Match::DeactivateDenateMatchConnection(bool isServer, bool isPrivateMatch)
     {
-        
+
         if (isInMatch)
         {
 
@@ -3242,7 +3242,7 @@ namespace DenateLocalMatch
                             jsonMessage->get_map()["match_id"] = sio::int_message::create(currentMatchDetail.matchId);
                             jsonMessage->get_map()["server_name"] = sio::string_message::create(std::string(currentMatchDetail.serverName));
                         }
-                        
+
                         namespaceSocket->emit("leaveroom", jsonMessage, [&](sio::message::list const& ack_msg) {
 
                             namespaceSocket->close();
@@ -3277,12 +3277,13 @@ namespace DenateLocalMatch
                 return true;
 
             }
-        
+            return false;
         }
         else {
             std::cout << "You must be a part of a match to end it" << std::endl;
             return false;
         }
+        return true;
 
     }
 
@@ -3374,7 +3375,7 @@ namespace DenateLocalMatch
 
                 teamplayerdetails.clientId = clientId;
                 teamplayerdetails.playerName = username;
-                
+
                 currentTeamPlayers.push_back(teamplayerdetails);
 
                 if (internalPlayerJoinTeam)
@@ -3427,7 +3428,7 @@ namespace DenateLocalMatch
                         currentTeamPlayers.erase(currentTeamPlayers.begin() + index);
                     }
                 }
-                
+
 
                 if (internalPlayerLeaveTeam)
                 {
@@ -3461,7 +3462,7 @@ namespace DenateLocalMatch
                     currentTeamDetail.serverName = "";
                     currentTeamDetail.teamId = "";
 
-                    currentTeamPlayers.empty();
+                    currentTeamPlayers.clear();
 
                     if (internalPlayerDestroyTeam)
                     {

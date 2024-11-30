@@ -192,7 +192,7 @@ namespace DenateVoiceChat
 
         result.httpResponse = httpResponse;
         result.createdChannel = createdChannel;
-        
+
 
         curl_global_cleanup();
 
@@ -414,7 +414,7 @@ namespace DenateVoiceChat
         {
             leftChannel = true;
 
-            
+
             std::vector<int> indexestodelete;
             for (int i = 0; i < allConnectedChannels.size(); i++)
             {
@@ -425,11 +425,11 @@ namespace DenateVoiceChat
 
             std::sort(indexestodelete.rbegin(), indexestodelete.rend());
             for (int index : indexestodelete)
-            { 
+            {
                 if (index >= 0 && index < allConnectedChannels.size())
                 {
                     allConnectedChannels.erase(allConnectedChannels.begin() + index);
-                } 
+                }
             }
 
             if (&internalDenateConnection != nullptr)
@@ -763,7 +763,7 @@ namespace DenateVoiceChat
                     {
                         voicedetails.channelId = !channels["room"].is_null() ? channels["room"] : "";
                     }
-                    
+
                     playerChannelDetails.push_back(voicedetails);
                 }
             }
@@ -948,11 +948,11 @@ namespace DenateVoiceChat
                     {
                         playerName = jsonObj["from_player"]->get_string();
                     }
-                    if (jsonObj.find("audioData") != jsonObj.end() && jsonObj["audioData"]->get_flag() == sio::message::flag_array) 
+                    if (jsonObj.find("audioData") != jsonObj.end() && jsonObj["audioData"]->get_flag() == sio::message::flag_array)
                     {
-                        auto audioData = jsonObj["audioData"]->get_vector(); 
-                        for (const auto& item : audioData) 
-                        { 
+                        auto audioData = jsonObj["audioData"]->get_vector();
+                        for (const auto& item : audioData)
+                        {
                             if (item->get_flag() == sio::message::flag_object)
                             {
                                 //audioDataArray.push_back(item->get_int());
@@ -961,7 +961,7 @@ namespace DenateVoiceChat
 
                                 if (newjsonObj.find("data") != newjsonObj.end())
                                 {
-                                    int data = newjsonObj["data"]->get_int();
+                                    int data = int(newjsonObj["data"]->get_int());
                                     audioDataArray.push_back(data);
                                 }
 
@@ -983,13 +983,13 @@ namespace DenateVoiceChat
     void DOS_Voice_Chat::Deactivate()
     {
         namespaceSocket->close();
-        
+
         voiceChatActivated = false;
     }
 
     void DOS_Voice_Chat::sendAudioData(std::vector<int> audioData, std::vector<std::string> clients)
     {
-        
+
         if (&internalDenateConnection != nullptr)
         {
             if (internalDenateConnection.isDenateOnlineServiceConnected)
@@ -1024,7 +1024,7 @@ namespace DenateVoiceChat
 
                         });
 
-                    
+
                 }
                 else {
                     std::cout << "Activate the voice chat" << std::endl;

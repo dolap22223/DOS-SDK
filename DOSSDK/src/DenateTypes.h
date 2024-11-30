@@ -1,11 +1,12 @@
 #pragma once
+
 #include <string>
 #include <curl/curl.h>
 #include <vector>
 
 
 
-enum class DenateRequestResult: UINT8 
+enum class DenateRequestResult : UINT8
 {
 	RequestSuccessful,
 	RequestFailed
@@ -13,14 +14,14 @@ enum class DenateRequestResult: UINT8
 
 enum class EServerHostResult : UINT8
 {
-	HostingSuccessful ,
+	HostingSuccessful,
 	HostingFailed
 };
 
-	
-typedef	enum class EFindMatchResult : UINT8
+
+enum class EFindMatchResult : UINT8
 {
-	MatchFound ,
+	MatchFound,
 	MatchNotFound
 };
 
@@ -42,7 +43,7 @@ public:
 	std::string LeaderboardName;
 };
 
-typedef	struct DenateFilterResult
+struct DenateFilterResult
 {
 
 	DenateFilterResult(std::string title = "", std::string value = "")
@@ -57,7 +58,7 @@ public:
 	std::string value;
 };
 
-typedef	struct DenateFriendDetails
+struct DenateFriendDetails
 {
 
 	DenateFriendDetails(std::string playerName = "", std::string picture = "", bool online = false, bool inGame = false, std::string appUserID = "")
@@ -70,7 +71,7 @@ typedef	struct DenateFriendDetails
 	}
 
 public:
-	
+
 	std::string playerName;
 
 	std::string picture;
@@ -82,8 +83,8 @@ public:
 	std::string appUserID;
 };
 
-	
-typedef	struct DenatePlayerAchievementDetails
+
+struct DenatePlayerAchievementDetails
 {
 
 	DenatePlayerAchievementDetails(std::string achievementName = "", std::string achievementDescription = "", std::string lockedAchievementName = "", std::string lockedAchievementDescription = "", std::string unlockedAchievementName = "", std::string unlockedAchievementDescription = "", std::string achievementID = "", std::string unlockedAchievementImageURL = "", std::string lockedAchievementImageURL = "", bool unlocked = false)
@@ -101,40 +102,40 @@ typedef	struct DenatePlayerAchievementDetails
 	}
 
 public:
-		
+
 	std::string achievementName;
 
-		
+
 	std::string achievementDescription;
 
-		
+
 	std::string lockedAchievementName;
 
-		
+
 	std::string lockedAchievementDescription;
 
-		
+
 	std::string unlockedAchievementName;
 
-		
+
 	std::string unlockedAchievementDescription;
 
-		
+
 	std::string achievementID;
 
-		
+
 	std::string lockedAchievementImageURL;
 
-		
+
 	std::string unlockedAchievementImageURL;
 
-		
+
 	bool unlocked;
 
 };
 
-	
-typedef	struct DenateAchievementDetails
+
+struct DenateAchievementDetails
 {
 
 	DenateAchievementDetails(std::string achievementName = "", std::string achievementDescription = "", std::string lockedAchievementName = "", std::string lockedAchievementDescription = "", std::string unlockedAchievementName = "", std::string unlockedAchievementDescription = "", std::string achievementID = "", std::string unlockedAchievementImageURL = "", std::string lockedAchievementImageURL = "", bool unlocked = false)
@@ -151,37 +152,37 @@ typedef	struct DenateAchievementDetails
 	}
 
 public:
-		
+
 	std::string achievementName;
 
-		
+
 	std::string achievementDescription;
 
-		
+
 	std::string lockedAchievementName;
 
-		
+
 	std::string lockedAchievementDescription;
 
-		
+
 	std::string unlockedAchievementName;
 
-		
+
 	std::string unlockedAchievementDescription;
 
-		
+
 	std::string achievementID;
 
-		
+
 	std::string lockedAchievementImageURL;
 
-		
+
 	std::string unlockedAchievementImageURL;
 
 };
 
-	
-typedef	struct DenateRoomDetails
+
+struct DenateRoomDetails
 {
 
 	DenateRoomDetails(std::string roomId = "", std::string clientId = "")
@@ -191,7 +192,7 @@ typedef	struct DenateRoomDetails
 	}
 
 public:
-		
+
 	std::string roomId;
 
 	std::string clientId;
@@ -199,19 +200,19 @@ public:
 
 };
 
-	
-typedef	struct DenatePlayerVoiceInfo
+
+struct DenatePlayerVoiceInfo
 {
 
 public:
 
-		
+
 	std::string playerName;
 
-		
+
 	bool microphoneDisabled;
 
-		
+
 	bool muted;
 
 	DenatePlayerVoiceInfo(bool microphoneDisabled = false, bool muted = false, std::string playerName = "")
@@ -235,22 +236,22 @@ public:
 };
 
 
-	
-typedef	struct DenateVoiceChannelDetails
+
+struct DenateVoiceChannelDetails
 {
 
 public:
-		
+
 	std::string channelId;
 
-		
+
 	std::string clientId;
 
-		
+
 	std::string playerName;
 
 
-	DenateVoiceChannelDetails(std::string channelId = "", std::string clientId = "", std::string playerName = "" )
+	DenateVoiceChannelDetails(std::string channelId = "", std::string clientId = "", std::string playerName = "")
 	{
 		this->channelId = channelId;
 		this->clientId = clientId;
@@ -269,7 +270,7 @@ public:
 
 };
 
-typedef	struct DenatePlayerChannelDetails
+struct DenatePlayerChannelDetails
 {
 
 public:
@@ -298,8 +299,8 @@ public:
 
 };
 
-	
-typedef	struct DenateSearchUserDetails
+
+struct DenateSearchUserDetails
 {
 
 	DenateSearchUserDetails(std::string playerName = "", std::string picture = "", std::string appUserID = "", bool online = false, bool inGame = false, bool friendRequestSent = false, bool friendRequestRecieved = false, bool is_a_Friend = false)
@@ -315,35 +316,35 @@ typedef	struct DenateSearchUserDetails
 	}
 
 public:
-		
+
 	std::string playerName;
 
-		
+
 	std::string picture;
 
-		
+
 	std::string appUserID;
 
-		
+
 	bool online;
 
-		
+
 	bool inGame;
 
-		
+
 	bool friendRequestSent;
 
-		
+
 	bool friendRequestRecieved;
 
-		
+
 	bool is_a_Friend;
 };
 
-	
-typedef	struct DenateHTTPResponse
+
+struct DenateHTTPResponse
 {
-		
+
 	DenateHTTPResponse(int status_code = 0, std::string message = "", bool requestSuccessful = false)
 	{
 		this->status_code = status_code;
@@ -352,18 +353,18 @@ typedef	struct DenateHTTPResponse
 	}
 
 public:
-		
+
 	int status_code;
 
-		
+
 	std::string message;
 
-		
+
 	bool requestSuccessful;
 };
 
-	
-typedef	struct DenateTeamPlayersDetails
+
+struct DenateTeamPlayersDetails
 {
 
 	DenateTeamPlayersDetails(std::string playerName = "", std::string clientId = "")
@@ -374,10 +375,10 @@ typedef	struct DenateTeamPlayersDetails
 
 public:
 
-		
+
 	std::string playerName;
 
-		
+
 	std::string clientId;
 
 	bool operator==(const DenateTeamPlayersDetails& Other)
@@ -392,8 +393,8 @@ public:
 
 };
 
-	
-typedef	struct DenateOnlineSaveDetail
+
+struct DenateOnlineSaveDetail
 {
 
 	DenateOnlineSaveDetail(std::string saveID = "", std::string filters = "", std::string Tag = "")
@@ -412,8 +413,8 @@ public:
 	std::string Tag;
 };
 
-	
-typedef	struct DenatePlayerOnlineSaveDetail
+
+struct DenatePlayerOnlineSaveDetail
 {
 
 	DenatePlayerOnlineSaveDetail(std::vector<int> objectBytes = {}, std::string saveID = "", std::string filters = "", std::string Tag = "")
@@ -427,21 +428,21 @@ typedef	struct DenatePlayerOnlineSaveDetail
 
 public:
 
-		
+
 	std::vector<int> objectBytes;
 
-		
+
 	std::string SaveID;
 
-		
+
 	std::string filters;
 
-		
+
 	std::string Tag;
 };
 
-	
-typedef	struct DenateTeamMatchDetail
+
+struct DenateTeamMatchDetail
 {
 
 	DenateTeamMatchDetail(std::string filters = "", std::string TeamID = "")
@@ -452,15 +453,15 @@ typedef	struct DenateTeamMatchDetail
 
 public:
 
-		
+
 	std::string filters;
 
-		
+
 	std::string TeamID;
 };
 
-	
-typedef	struct DenateTeamDetails
+
+struct DenateTeamDetails
 {
 
 	DenateTeamDetails(int matchId = 0, std::string serverName = "", int maxPlayers = 0, std::string filters = "", bool isPrivateMatch = false, std::string teamId = "")
@@ -475,22 +476,22 @@ typedef	struct DenateTeamDetails
 
 public:
 
-		
+
 	int matchId;
 
-		
+
 	std::string serverName;
 
-		
+
 	int maxPlayers;
 
-		
+
 	std::string filters;
 
-		
+
 	bool isPrivateMatch;
 
-		
+
 	std::string teamId;
 
 	bool operator==(const DenateTeamDetails& Other)
@@ -505,8 +506,8 @@ public:
 
 };
 
-	
-typedef	struct DenatePrivateMatchDetails
+
+struct DenatePrivateMatchDetails
 {
 
 	DenatePrivateMatchDetails(int matchId = 0, std::string serverName = "", int maxPlayers = 0, std::string filters = "", std::string ipAddress = "", std::string mapName = "", std::string playerName = "", std::string gameCode = "")
@@ -523,36 +524,36 @@ typedef	struct DenatePrivateMatchDetails
 
 public:
 
-		
+
 	int matchId;
 
-		
+
 	std::string serverName;
 
-		
+
 	std::string playerName;
 
-		
+
 	std::string mapName;
 
-		
+
 	std::string ipAddress;
 
-		
+
 	int maxPlayers;
 
-		
+
 	std::string filters;
 
-		
+
 	std::string gameCode;
 
 };
 
-	
-typedef	struct DenateMatchDetails
+
+struct DenateMatchDetails
 {
-		
+
 	DenateMatchDetails(int matchId = 0, std::string serverName = "", int maxPlayers = 0, std::string filters = "", std::string ipAddress = "", std::string mapName = "", std::string playerName = "")
 	{
 		this->matchId = matchId;
@@ -566,33 +567,33 @@ typedef	struct DenateMatchDetails
 
 public:
 
-		
+
 	int matchId;
 
-		
+
 	std::string serverName;
 
-		
+
 	std::string playerName;
 
-		
+
 	std::string mapName;
 
 	std::string ipAddress;
 
-		
+
 	int maxPlayers;
 
-		
+
 	std::string filters;
 
 
 };
 
-	
-typedef	struct DenateUserDetails
+
+struct DenateUserDetails
 {
-		
+
 	DenateUserDetails(std::string emailOrId = "", std::string username = "", std::string firstName = "", std::string lastName = "", std::string picture = "", std::string appUserID = "")
 	{
 		this->emailOrId = emailOrId;
@@ -605,30 +606,30 @@ typedef	struct DenateUserDetails
 
 public:
 
-		
+
 	std::string emailOrId;
 
-		
+
 	std::string username;
 
-		
+
 	std::string firstName;
 
-		
+
 	std::string lastName;
 
-		
+
 	std::string picture;
 
-		
+
 	std::string appUserID;
 };
 
-	
+
 struct DenatePlayersMatchDetails
 {
-		
-	DenatePlayersMatchDetails(std::string playerName, std::string serverName, std::string joinedDate, int maxPlayers = 0, bool isServer = false, bool isPrivateMatch = false )
+
+	DenatePlayersMatchDetails(std::string playerName, std::string serverName, std::string joinedDate, int maxPlayers = 0, bool isServer = false, bool isPrivateMatch = false)
 	{
 		this->playerName = playerName;
 		this->serverName = serverName;
@@ -640,22 +641,22 @@ struct DenatePlayersMatchDetails
 
 public:
 
-		
+
 	std::string playerName;
 
-		
+
 	std::string serverName;
 
-		
+
 	std::string joinedDate;
 
-		
+
 	int maxPlayers;
 
-		
+
 	bool isServer;
 
-		
+
 	bool isPrivateMatch;
 
 };
@@ -670,7 +671,7 @@ namespace DenateTypes {
 		DOS_DenateTypes();
 
 		/** Base url of the denate API */
-		static const std::string denateapiURL(){
+		static const std::string denateapiURL() {
 			return "http://localhost:3000/api/v1/";
 		}
 
@@ -684,10 +685,10 @@ namespace DenateTypes {
 
 		/** returns the base url of the denate gateway API*/
 		static std::string getdenateapigatewayURL();
-		
+
 
 	protected:
-		
+
 
 	private:
 

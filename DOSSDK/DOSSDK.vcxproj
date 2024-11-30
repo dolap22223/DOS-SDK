@@ -84,7 +84,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl-d.lib;Ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl-d.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -108,7 +108,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl.lib;Ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -128,7 +128,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl-d.lib;Ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl-d.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -152,7 +152,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl.lib;Ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
