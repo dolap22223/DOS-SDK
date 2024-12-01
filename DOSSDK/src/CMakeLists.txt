@@ -29,7 +29,7 @@ add_library(${PROJECT_NAME}_lib STATIC DenateTypes.cpp DOS_Achievement.cpp DOS_A
 install(TARGETS ${PROJECT_NAME}_lib DESTINATION lib) 
 
 # Install the project's include files 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "build" EXCLUDE)
 
 install(FILES ../ThirdParty/libcurl/lib/libcurl_imp.lib DESTINATION lib) 
 install(FILES ../ThirdParty/socket-io/lib/sioclient.lib DESTINATION lib) 
