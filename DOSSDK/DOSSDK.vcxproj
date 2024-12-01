@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\ThirdParty\socket-io\include;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -84,10 +84,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl-d.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib;$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,7 +98,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\ThirdParty\socket-io\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -108,10 +108,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib;$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\ThirdParty\socket-io\include;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -128,10 +128,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl-d.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib;$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\ThirdParty\socket-io\include;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -152,10 +152,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl.lib;sioclient.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;sioclient.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\build\Release;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib;$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -179,6 +179,10 @@
     <ClInclude Include="src\DenateTypes.h" />
     <ClInclude Include="src\DOS_Achievement.h" />
     <ClInclude Include="src\DOS_AppUser.h" />
+    <ClInclude Include="src\json.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

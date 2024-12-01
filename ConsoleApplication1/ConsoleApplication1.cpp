@@ -18,11 +18,6 @@ int main()
 {
     std::cout << "Hello World!\n";
 
-    CURL* curl;
-    CURLcode res;
-
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-
     DenateAppUser::DOS_AppUser appuser("userID", "appID", false);
     
     //DenateAchievement::DOS_Achievement denatea("", "");

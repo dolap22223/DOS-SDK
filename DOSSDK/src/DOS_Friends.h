@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <curl/curl.h>
-#include <json.hpp>
+#include "json.hpp"
 #include <vector>
 #include "DenateTypes.h"
 #include "DOS_Connection.h"

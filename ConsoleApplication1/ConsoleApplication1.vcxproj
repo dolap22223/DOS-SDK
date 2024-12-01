@@ -76,13 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl-d.lib;%(AdditionalDependencies);ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;DOSSDK.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib;$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcurl_imp.lib;%(AdditionalDependencies);DOSSDK.lib;sioclient.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,15 +93,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket-io\include;$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;libcurl.lib;DOSSDK.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib;C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;DOSSDK.lib;sioclient.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,13 +110,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl-d.lib;%(AdditionalDependencies);ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;DOSSDK.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib;$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcurl_imp.lib;%(AdditionalDependencies);DOSSDK.lib;sioclient.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,15 +127,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);CURL_STATICLIB;CURL_STATICLIB</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket.io-client-cpp\src;$(SolutionDir)DOSSDK\ThirdParty\nlohmann;$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket-io\include;$(SolutionDir)DOSSDK\ThirdParty\libcurl\include;$(SolutionDir)DOSSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\CURL\curl-8.9.0_1-win64-mingw\lib\$(ConfigurationName)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);ws2_32.lib;Normaliz.lib;Crypt32.lib;Wldap32.lib;libcurl.lib;DOSSDK.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)DOSSDK\ThirdParty\socket-io\lib;C:\Users\stan\OneDrive\Documents\vs studio projects\DOSSDK\x64\$(ConfigurationName);%(AdditionalLibraryDirectories);$(SolutionDir)DOSSDK\ThirdParty\libcurl\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;DOSSDK.lib;sioclient.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

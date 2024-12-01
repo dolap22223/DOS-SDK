@@ -1,5 +1,0 @@
-C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/SocketIO/CMakeFiles/sioclient.dir
-C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/SocketIO/CMakeFiles/sioclient_tls.dir
-C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/SocketIO/CMakeFiles/INSTALL.dir
-C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/SocketIO/CMakeFiles/ALL_BUILD.dir
-C:/Users/stan/OneDrive/Documents/vs studio projects/DOSSDK/ThirdParty/SocketIO/CMakeFiles/ZERO_CHECK.dir
