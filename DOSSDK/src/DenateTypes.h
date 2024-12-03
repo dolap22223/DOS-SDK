@@ -1,3 +1,4 @@
+// Copyright 2024, David Olashege, All rights reserved
 #pragma once
 
 #include <string>

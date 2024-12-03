@@ -1,3 +1,5 @@
+// Copyright 2024, David Olashege, All rights reserved
+
 #include "DenateTypes.h"
 
 std::vector<std::string> parseIntoVector(const std::string& str, const std::string& delimiter) {

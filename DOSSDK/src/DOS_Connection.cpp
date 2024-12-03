@@ -1,3 +1,5 @@
+// Copyright 2024, David Olashege, All rights reserved
+
 #include "DOS_Connection.h"
 #include <iostream>
 #include <chrono>

@@ -1,3 +1,5 @@
+// Copyright 2024, David Olashege, All rights reserved
+
 #include "DOS_AppUser.h"
 #include "curl/curl.h"
 #include "DenateTypes.h"
