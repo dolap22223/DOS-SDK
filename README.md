@@ -1,4 +1,4 @@
-# DOS-SDK
+<!-- # DOS-SDK --!>
 <h1 align="center" id="title">Denate Online Service SDK</h1>
 
 <p align="center"><img src="https://drive.usercontent.google.com/download?id=1uhEIrrKumxd5n0on56joQikLseCpc-Yr&export=view&authuser=0" alt="project-image" width="32" height="32"></p>
