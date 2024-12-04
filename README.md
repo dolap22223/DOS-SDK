@@ -12,25 +12,21 @@ Note: The documentation will soon be available on the <a href="https://denateonl
 Here are some of the project's best features:
 
 *   Achievements
+
 *   Leaderboard
+
 *   Matches
+
 *   Private Matches
+
 *   Friends
+
 *   Online Save
+
 *   Player Report
+
 *   Voice Chat
   
-<h2>💻 Built with</h2>
-
-Technologies used in the project:
-
-*   Unreal Engine
-  
-Technologies used in the Denate Online Service:
-
-*   Unreal Engine 
-*   Nestjs 
-*   React  
 
 <h2>Website</h2>
 
