@@ -36,8 +36,8 @@ Here are some of the project's best features:
 
 The documentation can be found at .<p>https://denateonlineservice.com/docs</p>
 
-<h2>Example Project</h2>
-The example project can be found at <a href="https://github.com/dolap22223/DenateExample">Denate online service Example Project</a>
+<h2>Unreal Engine Example Project</h2>
+The unreal engine example project can be found at <a href="https://github.com/dolap22223/DenateExample">Denate online service Example Project</a>
 
 <h2>Support or Suggestions?</h2>
 
