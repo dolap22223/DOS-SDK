@@ -474,7 +474,7 @@ namespace DenateLocalMatch
         * @param friend_name name(Denate Username) of the friend to invite
         * @return InviteFriendResult
         */
-        InviteFriendResult InviteFriend(std::string friendName);
+        InviteFriendResult InviteFriend(std::string friendName, bool allowOnlyFriendsInvitation = false);
 
         /** Ends a denate match */
         bool EndDenateMatch();

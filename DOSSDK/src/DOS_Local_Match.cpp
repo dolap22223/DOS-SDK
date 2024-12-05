@@ -2858,7 +2858,7 @@ namespace DenateLocalMatch
         return result;
     }
 
-    InviteFriendResult DOS_Local_Match::InviteFriend(std::string friendName)
+    InviteFriendResult DOS_Local_Match::InviteFriend(std::string friendName, bool allowOnlyFriendsInvitation)
     {
         CURL* curl;
         CURLcode res;
@@ -2879,7 +2879,9 @@ namespace DenateLocalMatch
             //std::string postfield = "email_or_username=" + EmailOrIdOrUsername;
             //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postfield.c_str()); //+ "&" + "password=" + Password);
 
-            std::string json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("player_name": ")" + userDetails.username + "\"" + "," + R"("friend_name": ")" + friendName + "\"" + "," + R"("friend_appuserID": ")" + "" + "\"" + "," + R"("player_appuserID": ")" + "" + R"("})";;
+            std::string onlyfriends = allowOnlyFriendsInvitation ? "True" : "False";
+
+            std::string json = R"({"appID": ")" + appID + "\"" + "," + R"("userID": ")" + userID + "\"" + "," + R"("player_name": ")" + userDetails.username + "\"" + "," + R"("friend_name": ")" + friendName + "\"" + "," + R"("friend_appuserID": ")" + "" + "\"" + "," + R"("only_friends": )" + onlyfriends + "," + R"("player_appuserID": ")" + "" + R"("})";;
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
 
             curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
