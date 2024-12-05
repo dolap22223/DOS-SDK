@@ -472,6 +472,7 @@ namespace DenateLocalMatch
 
         /** Invites a friend to a match
         * @param friend_name name(Denate Username) of the friend to invite
+        * @param allowOnlyFriendsInvitation True if you only want invite sent only to a friend
         * @return InviteFriendResult
         */
         InviteFriendResult InviteFriend(std::string friendName, bool allowOnlyFriendsInvitation = false);
