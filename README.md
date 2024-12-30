@@ -41,7 +41,7 @@ The unreal engine example project can be found at <a href="https://github.com/do
 
 <h2>Support or Suggestions?</h2>
 
-If you have an issue question or suggestion kindly check out our support page and leave a message.<p>https://denateonlineservice.com/support</p>
+If you have an issue question or suggestion, kindly check out our support page and leave a message.<p>https://denateonlineservice.com/support</p>
 
 <h2>💖Like my work?</h2>
 
