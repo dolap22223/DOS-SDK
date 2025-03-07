@@ -5,7 +5,7 @@
 
 <p id="description">SDK for the denate online service</p>
 
-Note: The documentation will soon be available on the <a href="https://denateonlineservice.com">Website</a>  
+Note: The documentation for the SDK will soon be available on the <a href="https://denateonlineservice.com">Website</a> for now the documentation of the unreal engine plugin should give you a sense of how it works as the SDK methods are also utilized in the plugin. 
   
 <h2>🧐 Features</h2>
 
